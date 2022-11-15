@@ -15,11 +15,17 @@ function LoginForm(props) {
     if(props.email === admin.email && props.password === admin.password) {
       console.log('login success!');
       props.setIsLoggedIn(true);
+      props.setFullName('admin');
       navigate('/bug-list');
     } else {
       console.log('login failed!');
       props.setIsLoggedIn(false);
     }
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    navigate('/register');
   }
 
   return (
@@ -61,7 +67,11 @@ function LoginForm(props) {
                       {(props.isLoggedIn) ? <div className='green'>Logged In</div> : <div className='red'>Please Log In</div>}
                     </div>
                     <button className="btn btn-primary btn-lg btn-block" type="submit">
-                      Login
+                      Log In
+                    </button>
+                    <div className='mb-4'></div>
+                    <button onClick={handleClick} className="btn btn-secondary btn-sm btn-block" type="button">
+                      Create an Account
                     </button>
                   </div>
                 </div>
