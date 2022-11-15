@@ -6,7 +6,7 @@ function RegisterForm() {
       <div className='d-flex justify-content-center mt-5'>
         <img className='' src='issue-tracker-logo-sm.png' alt='issue tracker logo'/>
       </div>
-    <div className="mt-5" id="login-component">
+    <div className="mt-3" id="login-component">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="">
@@ -25,7 +25,7 @@ function RegisterForm() {
                   />
                   
                 </div>
-                <button class="btn btn-primary btn-lg btn-block" type="submit">
+                <button className="btn btn-primary btn-lg btn-block" type="submit">
                   Login
                 </button>
               </div>

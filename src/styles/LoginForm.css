@@ -1,3 +1,11 @@
 #rounded-corner {
   border-radius: 1rem;
 }
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
