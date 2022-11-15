@@ -1,12 +1,9 @@
 import '../styles/LoginForm.css';
-import { Route, Routes, Link } from 'react-router-dom';
-import BugList from './BugList';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function LoginForm(props) {
+
+  const navigate = useNavigate();
 
   const admin = {
     email: 'admin@example.com',
@@ -15,12 +12,13 @@ function LoginForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if(email === admin.email && password === admin.password) {
+    if(props.email === admin.email && props.password === admin.password) {
       console.log('login success!');
-      setIsLoggedIn(true);
+      props.setIsLoggedIn(true);
+      navigate('/bug-list');
     } else {
       console.log('login failed!');
-      setIsLoggedIn(false);
+      props.setIsLoggedIn(false);
     }
   }
 
@@ -42,28 +40,28 @@ function LoginForm() {
                         id='email-input'
                         name='email'
                         type='email'
-                        onChange={(evt) => setEmail(evt.currentTarget.value)}
+                        onChange={(evt) => props.setEmail(evt.currentTarget.value)}
                         autoComplete='email'
                         className="form-control form-control-lg"
                         placeholder='Email'
-                        value={email}
+                        value={props.email}
                          />
                     </div>
                     <div className="d-flex form-outline mb-4 align-items-end">
                       <input
                         type="password"
                         id="password-input"
-                        onChange={(evt) => setPassword(evt.currentTarget.value)}
+                        onChange={(evt) => props.setPassword(evt.currentTarget.value)}
                         className="form-control form-control-lg"
                         placeholder="Password"
-                        value={password}
+                        value={props.password}
                       />
                     </div>
                     <div>
-                      {(isLoggedIn) ? <div className='green'>Logged In</div> : <div className='red'>Please Log In</div>}
+                      {(props.isLoggedIn) ? <div className='green'>Logged In</div> : <div className='red'>Please Log In</div>}
                     </div>
                     <button className="btn btn-primary btn-lg btn-block" type="submit">
-                      {(isLoggedIn) ? <Link className='nav-link' to="/bug-list">Login</Link> : 'Login'}
+                      Login
                     </button>
                   </div>
                 </div>
@@ -72,10 +70,6 @@ function LoginForm() {
           </div>
         </div>
       </div>
-      <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/bug-list" element={<BugList />} />
-        </Routes>
     </form>
   );
 }

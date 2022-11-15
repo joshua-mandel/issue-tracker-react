@@ -12,6 +12,12 @@ import './styles/App.css';
 import { nanoid } from 'nanoid';
 
 function App() {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
   const [users, setUsers] = useState([
     { id: nanoid(), name: 'Admin', email: 'admin@example.com', password: 'password', admin: true },
     { id: nanoid(), name: 'Joshua', email: 'joshua@example.com', password: 'password', admin: false },
@@ -78,7 +84,7 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path="/login" element={<LoginForm isLoggedIn={(evt => console.log('logged in!'))} />} />
+          <Route path="/login" element={<LoginForm email={email} setEmail={setEmail} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} password={password} setPassword={setPassword} />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/bug-editor" element={<BugEditor />} />
           <Route path="/bug-list" element={<BugList />} />
