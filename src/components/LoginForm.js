@@ -1,87 +1,117 @@
-import '../styles/LoginForm.css';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
+import _ from 'lodash';
+import jwt_decode from "jwt-decode";
+import { Link } from 'react-router-dom';
+import InputField from './InputField';
 
-function LoginForm(props) {
 
-  const navigate = useNavigate();
+function LoginForm({ onLogin, showError }) {
 
-  const admin = {
-    email: 'admin@example.com',
-    password: 'password',
-  }
+  const [emailAddress, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if(props.email === admin.email && props.password === admin.password) {
-      console.log('login success!');
-      props.setIsLoggedIn(true);
-      props.setFullName('admin');
-      navigate('/bug-list');
-    } else {
-      console.log('login failed!');
-      props.setIsLoggedIn(false);
+  const emailError = !emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : '';
+
+  const passwordError = !password
+  ? 'Password is required.'
+  : password.length < 8
+  ? 'Password must be at least 8 characters.'
+  : '';
+
+  function onClickSubmit(evt) {
+    evt.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (emailError || passwordError) {
+      setError('Please fix errors above.');
+      showError('Please fix errors above.');
+      return;
     }
+
+    axios(`${process.env.REACT_APP_API_URL}/api/user/login`, {
+      method: 'post',
+      data: { emailAddress, password },
+    })
+      .then((res) => {
+        console.log(res);
+        setSuccess(res.data.message);
+        const authPayload = jwt_decode(res.data.token);
+        const auth = {
+          emailAddress,
+          userId: res.data.userId,
+          token: res.data.token,
+          payload: authPayload,
+        };
+        console.log(auth);
+        onLogin(auth);
+      })
+      .catch((err) => {
+        console.error(err);
+        const resError = err?.response?.data?.error;
+        if (resError) {
+          if (typeof resError === 'string') {
+            setError(resError);
+            showError(resError);
+          } else if (resError.details) {
+            setError(_.map(resError.details, (x) => <div>{x.message}</div>));
+          } else {
+            setError(JSON.stringify(resError));
+          }
+        } else {
+          setError(err.message);
+          showError(err.message);
+        }
+      });
   }
 
-  function handleClick(e) {
-    e.preventDefault();
-    navigate('/register');
+  function onInputChange(evt, setValue) {
+    const newValue = evt.currentTarget.value;
+    setValue(newValue);
   }
 
-  return (
-    <form id='LoginForm' onSubmit={handleSubmit}>
-      <div className="container col-12 col-md-8 col-lg-6 col-xl-5">
-        <div className="d-flex justify-content-center mt-5">
-          <img className="" src="issue-tracker-logo-sm.png" alt="issue tracker logo" />
-        </div>
-        <div className="mt-3" id="login-component">
-          <div className="container py-5 h-100">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="">
-                <div className="card shadow-2-strong" id="rounded-corner">
-                  <div className="card-body p-5 text-center">
-                    <h3 className="mb-5">Sign in</h3>
-                    <div className="d-flex form-outline mb-4 align-items-end">
-                      <input
-                        id='email-input'
-                        name='email'
-                        type='email'
-                        onChange={(evt) => props.setEmail(evt.currentTarget.value)}
-                        autoComplete='email'
-                        className="form-control form-control-lg"
-                        placeholder='Email'
-                        value={props.email}
-                         />
-                    </div>
-                    <div className="d-flex form-outline mb-4 align-items-end">
-                      <input
-                        type="password"
-                        id="password-input"
-                        onChange={(evt) => props.setPassword(evt.currentTarget.value)}
-                        className="form-control form-control-lg"
-                        placeholder="Password"
-                        value={props.password}
-                      />
-                    </div>
-                    <div>
-                      {(props.isLoggedIn) ? <div className='green'>Logged In</div> : <div className='red'>Please Log In</div>}
-                    </div>
-                    <button className="btn btn-primary btn-lg btn-block" type="submit">
-                      Log In
-                    </button>
-                    <div className='mb-4'></div>
-                    <button onClick={handleClick} className="btn btn-secondary btn-sm btn-block" type="button">
-                      Create an Account
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+  return(
+    <div>
+      <h1>Login</h1>
+      <form>
+        <InputField
+          label="Email"
+          id="emailAddress"
+          autoComplete="email"
+          placeholder="name@example.com"
+          value={emailAddress}
+          onChange={(evt) => onInputChange(evt, setEmail)}
+          error={emailError}
+        />
+        <InputField
+          label="Password"
+          id="LoginForm-password"
+          type="password"
+          placeholder=""
+          autoComplete="current-password"
+          value={password}
+          onChange={(evt) => onInputChange(evt, setPassword)}
+          error={passwordError}
+        />
+
+        <div className="mb-3 d-flex align-items-center">
+          <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+            Login
+          </button>
+          <div>
+            <div>Don't have an account yet?</div>
+            <Link to="/register">Register Here</Link>
           </div>
         </div>
-      </div>
-    </form>
-  );
+        
+        {error && <div className="mb-3 text-danger">{error}</div>}
+        {success && <div className="mb-3 text-success">{success}</div>}
+      </form>
+    </div>
+  )
 }
 
 export default LoginForm;

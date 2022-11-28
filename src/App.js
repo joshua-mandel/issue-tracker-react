@@ -1,7 +1,6 @@
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import BugEditor from './components/BugEditor';
 import BugList from './components/BugList';
-import BugListItem from './components/BugListItem';
 import LoginForm from './components/LoginForm.js';
 import NotFound from './components/NotFound';
 import Footer from './components/Footer';
@@ -11,10 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserEditor } from './components/UserEditor';
 import { UserList } from './components/UserList';
-import { UserListItem } from './components/UserListItem';
 import { useState } from 'react';
 import './styles/App.css';
-import { nanoid } from 'nanoid';
 
 function App() {
 
@@ -24,13 +21,13 @@ function App() {
   function onLogin(auth) {
     setAuth(auth);
     showSuccess('Logged In.');
-    navigate('user/list');
+    navigate('/bug/list');
   }
 
   function onLogout() {
     setAuth(null);
     showSuccess('Logged Out.');
-    navigate('login');
+    navigate('/login');
   }
 
   function showSuccess(message) {
@@ -50,8 +47,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginForm onLogin={onLogin} showError={showError} />} />
+          <Route path="/register" element={<RegisterForm />} />
           <Route path="/bug/list" element={<BugList auth={auth} />} />
           <Route path="/bug/:bugId" element={<BugEditor auth={auth} showError={showError} />} />
+          <Route path="/user/list" element={<UserList />} />
+          <Route path="user/:userId" element={<UserEditor />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
