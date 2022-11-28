@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { UserList } from './UserList';
 
 function RegisterForm(props) {
-
   const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
-    if(props.email && props.password && props.fullName) {
+    if (props.email && props.password && props.fullName) {
       console.log('register success!');
       props.setIsLoggedIn(true);
       navigate('/bug-list');
@@ -39,13 +38,13 @@ function RegisterForm(props) {
                     <div className="d-flex form-outline mb-4 align-items-center">
                       <label className="me-2 ">Email: </label>
                       <input
-                        id='email-input'
-                        name='email'
-                        type='email'
+                        id="email-input"
+                        name="email"
+                        type="email"
                         onChange={(evt) => props.setEmail(evt.currentTarget.value)}
-                        autoComplete='email'
+                        autoComplete="email"
                         className="form-control form-control-lg"
-                        placeholder='Email'
+                        placeholder="Email"
                         value={props.email}
                       />
                     </div>
@@ -68,15 +67,20 @@ function RegisterForm(props) {
                         onChange={(evt) => props.setFullName(evt.currentTarget.value)}
                         className="form-control form-control-lg"
                         placeholder="Full Name"
+                        value={props.fullName}
                       />
                     </div>
                     <div>
-                      {(props.isLoggedIn) ? <div className='green'>Registered!</div> : <div className='red'>Please Fill Out All Info</div>}
+                      {props.isLoggedIn ? (
+                        <div className="green">Registered!</div>
+                      ) : (
+                        <div className="red">Please Fill Out All Info</div>
+                      )}
                     </div>
                     <button className="btn btn-primary btn-lg btn-block" type="submit">
                       Register Account
                     </button>
-                    <div className='mb-4'></div>
+                    <div className="mb-4"></div>
                     <button onClick={handleClick} className="btn btn-secondary btn-sm btn-block" type="button">
                       Already have an Account? Go to Log In
                     </button>
