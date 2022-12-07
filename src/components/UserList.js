@@ -3,7 +3,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import { UserListItem } from './UserListItem';
 
-export function UserList({auth}) {
+export function UserList({ auth }) {
   const [pending, setPending] = useState(true);
   const [error, setError] = useState('');
   const [items, setItems] = useState(null);
@@ -43,9 +43,11 @@ export function UserList({auth}) {
       )}
       {error && <div className="text-danger mb-2">{error}</div>}
       {!pending && !error && _.isEmpty(items) && <div className="mb-2">No items found.</div>}
-      {_.map(items, (item) => (
-        <UserListItem key={item._id} item={item} />
-      ))}
+      <div>
+        {_.map(items, (item) => (
+          <UserListItem key={item._id} item={item} />
+        ))}
+      </div>
     </div>
   );
 }

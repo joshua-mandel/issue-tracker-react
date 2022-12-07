@@ -1,45 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BugListItem from './BugListItem';
+import axios from 'axios';
 import _ from 'lodash';
 
 function BugList(props) {
-  const [bugs, setBugs] = useState([
-    {
-      id: 1,
-      title: 'Add a Navbar',
-      description: 'Add a robust and functioning navbar that matches the theme of the website.',
-      bugClass: 'feature',
-    },
-    {
-      id: 2,
-      title: 'Fix Contact Page Bug',
-      description:
-        'Upon submitting a message on the contact page, there is an error that occurs and will not submit the message to the system.',
-      bugClass: 'bug',
-    },
-    {
-      id: 3,
-      title: 'Add a Footer',
-      description:
-        'A footer needs to be added that includes our companies address, phone number, and hours. There also needs to be links for our social media pages.',
-      bugClass: 'feature',
-    },
-  ]);
+  const [error, setError] = useState('');
+  const [pending, setPending] = useState(true);
+  const [bugs, setBugs] = useState(null);
+
+  useEffect(() => {
+    setPending(true);
+    setError('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/list`, {
+      method: 'get',
+      params: { pageSize: 1000 },
+      headers: {
+        authorization: `Bearer ${props.auth?.token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setPending(false);
+        if (_.isArray(res.data)) {
+          if (_.isEmpty(res.data)) {
+            setError('No bugs found');
+            return;
+          } else {
+            setBugs(res.data);
+          }
+          
+        } else {
+          setError('Expected an array.');
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+      });
+  }, [props.auth]);
 
   return (
-    <div className="container col-12 col-md-10 col-lg-10 col-xl-10">
-      <div className="mt-5" id="login-component">
-        <div className="card shadow-2-strong" id="rounded-corner">
-          <div className="card-body p-5 text-center">
-            <h3 className="mb-1">Bug List</h3>
-            <h5 className="mb-5">Welcome {props.fullName}</h5>
-            <div className="d-flex flex-wrap form-outline mb-4 align-content-around justify-content-center">
-              {_.map(bugs, (bug) => (
-                <BugListItem key={bug.id} bug={bug} />
-              ))}
-            </div>
+    <div className="container">
+      <div className="" id="login-component">
+        <h3 className="mb-1">Bug List</h3>
+        <h5 className="mb-3">Welcome {props.fullName}</h5>
+        {pending && (
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
-        </div>
+        )}
+        {error && <div className="text-danger mb-2">{error}</div>}
+        {!pending && !error && !_.isEmpty(bugs) && <div className="d-flex flex-wrap">
+          {_.map(bugs, (bug) => (
+            <BugListItem key={bug.id} bug={bug} />
+          ))}
+        </div>}
       </div>
     </div>
   );

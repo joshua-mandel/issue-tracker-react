@@ -8,24 +8,27 @@ import InputField from './InputField';
 
 function LoginForm({ onLogin, showError }) {
 
-  const [emailAddress, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailAddress, setEmail] = useState();
+  const [password, setPassword] = useState();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
-  const emailError = !emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : '';
-
-  const passwordError = !password
-  ? 'Password is required.'
-  : password.length < 8
-  ? 'Password must be at least 8 characters.'
-  : '';
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   function onClickSubmit(evt) {
     evt.preventDefault();
     setError('');
     setSuccess('');
 
+    // part 2
+    setEmailError(!emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : '');
+    console.log(emailError);
+    setPasswordError(!password
+    ? 'Password is required.'
+    : password.length < 8
+    ? 'Password must be at least 8 characters.'
+    : '');
+    
     if (emailError || passwordError) {
       setError('Please fix errors above.');
       showError('Please fix errors above.');
@@ -72,6 +75,8 @@ function LoginForm({ onLogin, showError }) {
     const newValue = evt.currentTarget.value;
     setValue(newValue);
   }
+
+  
 
   return(
     <div>

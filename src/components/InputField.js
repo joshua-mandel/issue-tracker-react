@@ -1,5 +1,5 @@
 function InputField({ label, id, className, error, ...rest }) {
-  const inputClasses = 'form-control ' + (error ? 'is-invalid' : 'is-valid');
+  const inputClasses = 'form-control ' + (error ? 'is-invalid': '');
 
   return (
     <div className="mb-3">

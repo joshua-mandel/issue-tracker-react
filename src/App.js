@@ -47,7 +47,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginForm onLogin={onLogin} showError={showError} />} />
-          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/register" element={<RegisterForm onLogin={onLogin} showError={showError} />} />
           <Route path="/bug/list" element={<BugList auth={auth} />} />
           <Route path="/bug/:bugId" element={<BugEditor auth={auth} showError={showError} />} />
           <Route path="/user/list" element={<UserList />} />
