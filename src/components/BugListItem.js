@@ -21,7 +21,7 @@ function BugListItem({ bug }) {
                 {bug.bugClass === 'approved' && <span className=" badge bg-success me-1">{bug.bugClass}</span>}
                 {bug.bugClass === 'unapproved' && <span className=" badge bg-danger me-1">{bug.bugClass}</span>}
                 {bug.bugClass === 'duplicate' && <span className=" badge bg-danger me-1">{bug.bugClass}</span>}
-                {bug.bugClass === 'unclassified' && <span className=" badge bg-warning me-1">{bug.bugClass}</span>}
+                {bug.bugClass === 'unclassified' && <span className=" badge text-dark bg-warning me-1">{bug.bugClass}</span>}
                 {bug.closed === true && <span className="badge bg-danger me-1">Closed</span>}
                 {bug.closed === false && <span className="badge bg-success me-1">Open</span>}
               </div>
