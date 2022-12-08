@@ -40,11 +40,13 @@ function BugList(props) {
       });
   }, [props.auth]);
 
+  console.log(props.auth.payload.fullName);
+
   return (
     <div className="container">
       <div className="" id="login-component">
         <h3 className="mb-1">Bug List</h3>
-        <h5 className="mb-3">Welcome {props.fullName}</h5>
+        {props.auth.payload.fullName && <h5 className="mb-3">Welcome {props.auth.payload.fullName}</h5>}
         {pending && (
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>

@@ -3,17 +3,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function BugEditor(props) {
-  const { id, title, description, bugClass } = useParams();
+  const { _id } = useParams();
 
   const navigate = useNavigate();
 
-  const [newTitle, setNewTitle] = useState(title);
-  const [newDescription, setNewDescription] = useState(description);
-  const [newBugClass, setNewBugClass] = useState(bugClass);
+  const [newTitle, setNewTitle] = useState();
+  const [newDescription, setNewDescription] = useState();
+  const [newBugClass, setNewBugClass] = useState();
 
   function handleClick(e) {
     e.preventDefault();
-    navigate('/bug-list');
+    navigate('/bug/list');
   }
 
   return (
@@ -23,7 +23,7 @@ function BugEditor(props) {
           <div className="card-body p-5 text-center">
             <h3 className="mb-1">Bug Editor</h3>
             <h5 className="mb-5">Welcome {props.fullName}</h5>
-            <div>Bug Id: {id}</div>
+            <div>Bug Id: {_id}</div>
             <form>
               <div className="container">
                 <div className="d-flex form-outline row mb-4 align-items-center text-start">

@@ -1,16 +1,14 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 function BugListItem({ bug }) {
-  const navigate = useNavigate();
 
   function handleClick(e) {
     e.preventDefault();
-    navigate(`/bug-editor/${bug.id}/${bug.title}/${bug.description}/${bug.bugClass}`);
   }
 
   return (
-    <div className="col-3 p-1">
+    <div className="col-xl-3 col-md-6 col-12 p-2">
       <div className="card h-100 bg-light">
         <div className="card-body">
           <h5 className="card-title mb-1">{bug.title}</h5>
@@ -21,25 +19,31 @@ function BugListItem({ bug }) {
                 {bug.bugClass === 'approved' && <span className=" badge bg-success me-1">{bug.bugClass}</span>}
                 {bug.bugClass === 'unapproved' && <span className=" badge bg-danger me-1">{bug.bugClass}</span>}
                 {bug.bugClass === 'duplicate' && <span className=" badge bg-danger me-1">{bug.bugClass}</span>}
-                {bug.bugClass === 'unclassified' && <span className=" badge text-dark bg-warning me-1">{bug.bugClass}</span>}
+                {bug.bugClass === 'unclassified' && (
+                  <span className=" badge text-dark bg-warning me-1">{bug.bugClass}</span>
+                )}
                 {bug.closed === true && <span className="badge bg-danger me-1">Closed</span>}
                 {bug.closed === false && <span className="badge bg-success me-1">Open</span>}
               </div>
               <div>
                 <button
                   onClick={handleClick}
-                  className="btn border border-dark border-2 btn-secondary btn-sm px-5 py-0"
+                  className="btn border border-dark border-1 btn-primary btn-sm px-3 py-0"
                   type="button"
                 >
-                  Edit Bug
+                  <Link className='text-white text-decoration-none' to={`/bug/${bug._id}`}>Edit Bug</Link>
                 </button>
               </div>
             </div>
           </div>
         </div>
-        {bug.createdOn && bug.createdDate && <div class="card-footer">{moment(bug.createdOn).fromNow()}</div>}
-        {bug.createdDate && !bug.createdOn && <div class="card-footer">{moment(bug.createdDate).fromNow()}</div>}
-        {bug.createdOn && !bug.createdDate && <div class="card-footer">{moment(bug.createdOn).fromNow()}</div>}
+        <div className="card-footer">
+          {bug.createdOn && bug.createdDate && <div>Created {moment(bug.createdOn).fromNow()}</div>}
+          {bug.createdDate && !bug.createdOn && <div>Created {moment(bug.createdDate).fromNow()}</div>}
+          {bug.createdOn && !bug.createdDate && <div>Created {moment(bug.createdOn).fromNow()}</div>}
+          by
+          {bug.createdBy && <span> {bug.createdBy}</span>}
+        </div>
       </div>
     </div>
   );
