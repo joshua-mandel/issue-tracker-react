@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
-import { UserListItem } from './UserListItem';
+import UserListItem from './UserListItem';
 
 export function UserList({ auth }) {
   const [pending, setPending] = useState(true);
   const [error, setError] = useState('');
-  const [items, setItems] = useState(null);
+  const [users, setUsers] = useState(null);
 
   useEffect(() => {
     setPending(true);
@@ -22,7 +22,7 @@ export function UserList({ auth }) {
         console.log(res.data);
         setPending(false);
         if (_.isArray(res.data)) {
-          setItems(res.data);
+          setUsers(res.data);
         } else {
           setError('Expected an array.');
         }
@@ -34,21 +34,26 @@ export function UserList({ auth }) {
       });
     }, 250);
   }, [auth]);
+
   return (
-    <div>
-      <h1>User List</h1>
+    <div className="container">
+    <div className="" id="login-component">
+      <h3 className="mb-1">User List</h3>
+      {auth?.payload.fullName && <h5 className="mb-3">Welcome {auth?.payload.fullName}</h5>}
       {pending && (
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
       {error && <div className="text-danger mb-2">{error}</div>}
-      {!pending && !error && _.isEmpty(items) && <div className="mb-2">No items found.</div>}
-      <div>
-        {_.map(items, (item) => (
-          <UserListItem key={item._id} item={item} />
-        ))}
-      </div>
+      {!pending && !error && !_.isEmpty(users) && (
+        <div className="d-flex flex-wrap">
+          {_.map(users, (user) => (
+            <UserListItem key={user._id} user={user} />
+          ))}
+        </div>
+      )}
     </div>
+  </div>
   );
 }

@@ -16,7 +16,7 @@ function Footer() {
           <div className='my-2'>
             <div className="my-1  my-2">&copy; Joshua Mandel 2022</div>
             <div className="d-flex align-items-center my-2">
-              <div className="me-2">Built with</div>
+              <div className="my-2">Built with</div>
               <a className="text-decoration-none text-white" href={mongoDbLink} rel="noreferrer" target="_blank"><SiMongodb className="m-1 fs-4" /></a>
               <a className="text-decoration-none text-white" href={expressJsLink} rel="noreferrer" target="_blank"><SiExpress className="m-1 fs-4" /></a>
               <a className="text-decoration-none text-white" href={reactJsLink} rel="noreferrer" target="_blank"><FaReact className="m-1 fs-4" /></a>
