@@ -27,12 +27,6 @@ function LoginForm({ onLogin, showError }) {
     : password.length < 8
     ? 'Password must be at least 8 characters.'
     : '');
-    
-    if (emailError || passwordError) {
-      setError('Please fix errors above.');
-      showError('Please fix errors above.');
-      return;
-    }
 
     axios(`${process.env.REACT_APP_API_URL}/api/user/login`, {
       method: 'post',

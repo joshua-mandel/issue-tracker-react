@@ -58,40 +58,41 @@ function BugEditor({ auth, showError, showSuccess }) {
 
   function onClickSubmit(evt) {
     evt.preventDefault();
-    setPending(true);
-    setError('');
-    setSuccess('');
-    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}`, {
-      method: 'put',
-      headers: {
-        authorization: `Bearer ${auth?.token}`,
-      },
-      data: {
-        title: title,
-        description: description,
-        stepsToReproduce: stepsToReproduce,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        console.log(`Bug: `, bug);
-        setPending(false);
-        if (_.isObject(res.data)) {
-          // setBug(res.data);
-          navigate('/bug/list');
-          showSuccess(`Bug with id: ${bugId} updated`);
-        } else {
-          setError('Expected an object');
-          showError(error + ' Expected an object');
-        }
+      setPending(true);
+      setError('');
+      setSuccess('');
+      axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}`, {
+        method: 'put',
+        headers: {
+          authorization: `Bearer ${auth?.token}`,
+        },
+        data: {
+          title: title,
+          description: description,
+          stepsToReproduce: stepsToReproduce,
+        },
       })
-      .catch((err) => {
-        console.log(`Bug: `, bug);
-        console.error(err);
-        setPending(false);
-        setError(err.message);
-        showError(err.message);
-      });
+        .then((res) => {
+          console.log(res.data);
+          console.log(`Bug: `, bug);
+          setPending(false);
+          if (_.isObject(res.data)) {
+            // setBug(res.data);
+            navigate('/bug/list');
+            showSuccess(`Bug with id: ${bugId} updated`);
+          } else {
+            setError('Expected an object');
+            showError(error + ' Expected an object');
+          }
+        })
+        .catch((err) => {
+          console.log(`Bug: `, bug);
+          console.error(err);
+          setPending(false);
+          setError(err.message);
+          showError('Please fix the errors.');
+        });
+    
   }
 
   return (
@@ -160,7 +161,7 @@ function BugEditor({ auth, showError, showSuccess }) {
             value={assignedTo}
             onChange={(evt) => onInputChange(evt, setAssignedTo)}
           />
-          {error && <div className="text-danger mb-1">{error}</div>}
+          {error && <div className="text-danger mb-1">{'Please fix the errors above'}</div>}
           {!pending && <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
             Update Bug
           </button>}
