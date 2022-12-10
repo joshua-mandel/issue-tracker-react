@@ -6,7 +6,7 @@ function Navbar({ auth, onLogout }) {
     <header className="navbar navbar-expand navbar-dark bg-dark">
       <nav className="container">
         <div>
-          <img className="img-fluid me-3 logo-sm" src={smallLogo} alt="logo" />
+          <img className="img-fluid me-3 logo-sm p-2" src={smallLogo} alt="logo" />
           {auth && <span className="navbar-text">{auth.emailAddress}</span>}
         </div>
         <ul className="navbar-nav">
