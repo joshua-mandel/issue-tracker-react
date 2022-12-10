@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import InputField from './InputField';
 
-
 function LoginForm({ onLogin, showError }) {
-
   const [emailAddress, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState('');
@@ -20,13 +18,12 @@ function LoginForm({ onLogin, showError }) {
     setError('');
     setSuccess('');
 
-    // part 2
-    setEmailError(!emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : '');
-    setPasswordError(!password
-    ? 'Password is required.'
-    : password.length < 8
-    ? 'Password must be at least 8 characters.'
-    : '');
+    setEmailError(
+      !emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : ''
+    );
+    setPasswordError(
+      !password ? 'Password is required.' : password.length < 8 ? 'Password must be at least 8 characters.' : ''
+    );
 
     axios(`${process.env.REACT_APP_API_URL}/api/user/login`, {
       method: 'post',
@@ -44,7 +41,6 @@ function LoginForm({ onLogin, showError }) {
         onLogin(auth);
         console.log('authPayload: ', authPayload);
         console.log('auth: ', auth);
-
       })
       .catch((err) => {
         console.error(err);
@@ -70,10 +66,8 @@ function LoginForm({ onLogin, showError }) {
     setValue(newValue);
   }
 
-  
-
-  return(
-    <div className='container col-md-6'>
+  return (
+    <div className="container col-md-6">
       <h1>Login</h1>
       <form>
         <InputField
@@ -105,12 +99,11 @@ function LoginForm({ onLogin, showError }) {
             <Link to="/register">Register Here</Link>
           </div>
         </div>
-        
         {error && <div className="mb-3 text-danger">{error}</div>}
         {success && <div className="mb-3 text-success">{success}</div>}
       </form>
     </div>
-  )
+  );
 }
 
 export default LoginForm;
