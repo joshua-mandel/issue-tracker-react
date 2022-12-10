@@ -19,6 +19,12 @@ function BugEditor({ auth, showError, showSuccess }) {
 
   const navigate = useNavigate();
 
+  const titleError = !title ? 'Please include a title.' : '';
+
+  const descriptionError = !description ? 'Please include a description' : '';
+
+  const stepsToReproduceError = !stepsToReproduce ? 'Please include stepsToReproduce' : '';
+
   useEffect(() => {
     setPending(true);
     setTimeout(() => {
@@ -56,7 +62,7 @@ function BugEditor({ auth, showError, showSuccess }) {
     setError('');
     setSuccess('');
     axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}`, {
-      method:'put',
+      method: 'put',
       headers: {
         authorization: `Bearer ${auth?.token}`,
       },
@@ -66,26 +72,26 @@ function BugEditor({ auth, showError, showSuccess }) {
         stepsToReproduce: stepsToReproduce,
       },
     })
-    .then((res) => {
-      console.log(res.data);
-      console.log(`Bug: `, bug);
-      setPending(false);
-      if(_.isObject(res.data)) {
-        // setBug(res.data);
-        navigate('/bug/list');
-        showSuccess(`Bug with id: ${bugId} updated`);
-      } else {
-        setError('Expected an object');
-        showError(error + ' Expected an object');
-      }
-    })
-    .catch((err) => {
-      console.log(`Bug: `, bug);
-      console.error(err);
-      setPending(false);
-      setError(err.message);
-      showError(err.message);
-    });
+      .then((res) => {
+        console.log(res.data);
+        console.log(`Bug: `, bug);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          // setBug(res.data);
+          navigate('/bug/list');
+          showSuccess(`Bug with id: ${bugId} updated`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
+      })
+      .catch((err) => {
+        console.log(`Bug: `, bug);
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        showError(err.message);
+      });
   }
 
   return (
@@ -97,7 +103,6 @@ function BugEditor({ auth, showError, showSuccess }) {
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
-      {error && <div className="text-danger mb-1">{error}</div>}
       {bug && (
         <form>
           <h4 className="mb-3">BugId: {bugId}</h4>
@@ -106,21 +111,21 @@ function BugEditor({ auth, showError, showSuccess }) {
             id="title-update"
             value={title}
             onChange={(evt) => onInputChange(evt, setTitle)}
-            error={error}
+            error={titleError}
           />
           <InputField
             label="Description:"
             id="title-update"
             value={description}
             onChange={(evt) => onInputChange(evt, setDescription)}
-            error={error}
+            error={descriptionError}
           />
           <InputField
             label="Steps to Reproduce:"
             id="steps-to-reproduce"
             value={stepsToReproduce}
             onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
-            error={error}
+            error={stepsToReproduceError}
           />
           <div className="mb-3">
             <label htmlFor="classification" className="form-label">
@@ -159,8 +164,8 @@ function BugEditor({ auth, showError, showSuccess }) {
             id="assignedTo"
             value={assignedTo}
             onChange={(evt) => onInputChange(evt, setAssignedTo)}
-            error={error}
           />
+          {error && <div className="text-danger mb-1">{error}</div>}
           <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
             Update Bug
           </button>
