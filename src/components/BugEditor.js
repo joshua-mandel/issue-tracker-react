@@ -1,4 +1,4 @@
-import { Navigate, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import InputField from './InputField';
 import DropDown from './DropDown';
