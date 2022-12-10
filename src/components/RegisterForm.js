@@ -105,7 +105,7 @@ function RegisterForm({ onLogin, showError }) {
   }
 
   return (
-    <div>
+    <div className='container col-md-6'>
       <h1>Register</h1>
       <form>
         <InputField

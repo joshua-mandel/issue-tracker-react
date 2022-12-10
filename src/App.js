@@ -7,10 +7,11 @@ import Footer from './components/Footer';
 import RegisterForm from './components/RegisterForm';
 import Navbar from './components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
+import jwt from "jsonwebtoken";
 import 'react-toastify/dist/ReactToastify.css';
 import { UserEditor } from './components/UserEditor';
 import { UserList } from './components/UserList';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './styles/App.css';
 
 function App() {
@@ -18,16 +19,41 @@ function App() {
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage) {
+      const storedAuthToken = localStorage.getItem('authToken');
+      if(storedAuthToken) {
+        const authPayload = jwt.decode(storedAuthToken);
+        if(authPayload) {
+          const auth = {
+            token: storedAuthToken,
+            payload: authPayload,
+            emailAddress: authPayload.emailAddress,
+            userId: authPayload._id,
+          };
+          setAuth(auth);
+          console.log(auth);
+        }
+      }
+    }
+  }, []);
+
   function onLogin(auth) {
     setAuth(auth);
     showSuccess('Logged In.');
     navigate('/bug/list');
+    if(localStorage) {
+      localStorage.setItem('authToken', auth.token);
+    }
   }
 
   function onLogout() {
     setAuth(null);
     showSuccess('Logged Out.');
     navigate('/login');
+    if(localStorage) {
+      localStorage.removeItem('authToken');
+    }
   }
 
   function showSuccess(message) {

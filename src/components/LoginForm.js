@@ -22,7 +22,6 @@ function LoginForm({ onLogin, showError }) {
 
     // part 2
     setEmailError(!emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : '');
-    console.log(emailError);
     setPasswordError(!password
     ? 'Password is required.'
     : password.length < 8
@@ -40,17 +39,18 @@ function LoginForm({ onLogin, showError }) {
       data: { emailAddress, password },
     })
       .then((res) => {
-        console.log(res);
         setSuccess(res.data.message);
         const authPayload = jwt_decode(res.data.token);
         const auth = {
-          emailAddress,
+          emailAddress: authPayload.emailAddress,
           userId: res.data.userId,
           token: res.data.token,
           payload: authPayload,
         };
-        console.log(auth);
         onLogin(auth);
+        console.log('authPayload: ', authPayload);
+        console.log('auth: ', auth);
+
       })
       .catch((err) => {
         console.error(err);
@@ -79,7 +79,7 @@ function LoginForm({ onLogin, showError }) {
   
 
   return(
-    <div>
+    <div className='container col-md-6'>
       <h1>Login</h1>
       <form>
         <InputField
