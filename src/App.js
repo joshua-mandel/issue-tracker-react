@@ -9,8 +9,8 @@ import Navbar from './components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import jwt from 'jsonwebtoken';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserEditor } from './components/UserEditor';
-import { UserList } from './components/UserList';
+import UserEditor from './components/UserEditor';
+import UserList from './components/UserList';
 import { useState, useEffect } from 'react';
 import './styles/App.css';
 
@@ -76,7 +76,7 @@ function App() {
             <Route path="/bug/list" element={<BugList auth={auth} />} />
             <Route path="/bug/:bugId" element={<BugEditor auth={auth} showError={showError} showSuccess={showSuccess} />} />
             <Route path="/user/list" element={<UserList auth={auth} />} />
-            <Route path="user/:userId" element={<UserEditor />} />
+            <Route path="user/:userId" element={<UserEditor auth={auth} showError={showError} showSuccess={showSuccess} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

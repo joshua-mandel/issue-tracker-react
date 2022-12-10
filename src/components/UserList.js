@@ -3,7 +3,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import UserListItem from './UserListItem';
 
-export function UserList({ auth }) {
+function UserList({ auth }) {
   const [pending, setPending] = useState(true);
   const [error, setError] = useState('');
   const [users, setUsers] = useState(null);
@@ -57,3 +57,5 @@ export function UserList({ auth }) {
   </div>
   );
 }
+
+export default UserList;

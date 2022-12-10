@@ -42,7 +42,7 @@ function UserListItem({ user }) {
             <div>
               <button
                 onClick={handleClick}
-                className="btn border border-dark border-1 btn-primary btn-md px-3 py-0"
+                className="btn border border-dark border-1 btn-primary btn-md p-1"
                 type="button"
               >
                 <Link className="text-white text-decoration-none" to={`/user/${user._id}`}>
