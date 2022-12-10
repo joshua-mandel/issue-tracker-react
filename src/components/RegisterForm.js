@@ -72,7 +72,7 @@ function RegisterForm({ onLogin, showError }) {
         setSuccess(res.data.message);
         const authPayload = jwt_decode(res.data.token);
         const auth = {
-          emailAddress,
+          emailAddress: emailAddress,
           userId: res.data.userId,
           token: res.data.token,
           payload: authPayload,

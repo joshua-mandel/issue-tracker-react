@@ -1,24 +1,23 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import InputField from './InputField';
 import DropDown from './DropDown';
 import axios from 'axios';
+import _ from 'lodash';
 
-function BugEditor({ auth, showError }) {
+function BugEditor({ auth, showError, showSuccess }) {
   const { bugId } = useParams();
   const [bug, setBug] = useState(null);
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const [stepsToReproduce, setStepsToReproduce] = useState();
-  const [classification, setClassification] = useState();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [stepsToReproduce, setStepsToReproduce] = useState('');
   const [assignedTo, setAssignedTo] = useState();
   const [closed, setClosed] = useState();
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [pending, setPending] = useState(true);
 
-  function handleClick(e) {
-    e.preventDefault();
-  }
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPending(true);
@@ -32,6 +31,9 @@ function BugEditor({ auth, showError }) {
         .then((res) => {
           setPending(false);
           setBug(res.data);
+          setTitle(res.data.title);
+          setDescription(res.data.description);
+          setStepsToReproduce(res.data.stepsToReproduce);
         })
         .catch((err) => {
           console.log(err);
@@ -46,6 +48,44 @@ function BugEditor({ auth, showError }) {
     const newValue = evt.currentTarget.value;
     setValue(newValue);
     console.log(newValue);
+  }
+
+  function onClickSubmit(evt) {
+    evt.preventDefault();
+    setPending(true);
+    setError('');
+    setSuccess('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}`, {
+      method:'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        title: title,
+        description: description,
+        stepsToReproduce: stepsToReproduce,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+      console.log(`Bug: `, bug);
+      setPending(false);
+      if(_.isObject(res.data)) {
+        // setBug(res.data);
+        navigate('/bug/list');
+        showSuccess(`Bug with id: ${bugId} updated`);
+      } else {
+        setError('Expected an object');
+        showError(error + ' Expected an object');
+      }
+    })
+    .catch((err) => {
+      console.log(`Bug: `, bug);
+      console.error(err);
+      setPending(false);
+      setError(err.message);
+      showError(err.message);
+    });
   }
 
   return (
@@ -64,22 +104,22 @@ function BugEditor({ auth, showError }) {
           <InputField
             label="Title:"
             id="title-update"
-            value={bug.title}
-            onChange={(evt) => onInputChange(evt, setBug)}
+            value={title}
+            onChange={(evt) => onInputChange(evt, setTitle)}
             error={error}
           />
           <InputField
             label="Description:"
             id="title-update"
-            value={bug.description}
-            onChange={(evt) => onInputChange(evt, setBug)}
+            value={description}
+            onChange={(evt) => onInputChange(evt, setDescription)}
             error={error}
           />
           <InputField
             label="Steps to Reproduce:"
             id="steps-to-reproduce"
-            value={bug.stepsToReproduce}
-            onChange={(evt) => onInputChange(evt, setBug)}
+            value={stepsToReproduce}
+            onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
             error={error}
           />
           <div className="mb-3">
@@ -90,13 +130,13 @@ function BugEditor({ auth, showError }) {
               id="classification"
               name="classification"
               className="form-select"
-              value={classification}
-              onChange={(evt) => setClassification(evt.currentTarget.value)}
+              value={bug.bugClass}
+              onChange={(evt) => onInputChange(evt, setBug)}
             >
               <option value="">All</option>
-              <option value="Approved">Approved</option>
-              <option value="Unapproved">Unapproved</option>
-              <option value="Duplicate">Duplicate</option>
+              <option value="approved">Approved</option>
+              <option value="unapproved">Unapproved</option>
+              <option value="duplicate">Duplicate</option>
             </DropDown>
           </div>
           <div className="mb-3">
@@ -111,7 +151,7 @@ function BugEditor({ auth, showError }) {
               onChange={(evt) => setClosed(evt.currentTarget.value)}
             >
               <option value="false">Open</option>
-              <option value="Closed">Closed</option>
+              <option value="true">Closed</option>
             </DropDown>
           </div>
           <InputField
@@ -121,6 +161,9 @@ function BugEditor({ auth, showError }) {
             onChange={(evt) => onInputChange(evt, setAssignedTo)}
             error={error}
           />
+          <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+            Update Bug
+          </button>
         </form>
       )}
     </div>

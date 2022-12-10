@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 function BugListItem({ bug }) {
-
   function handleClick(e) {
     e.preventDefault();
   }
@@ -31,7 +30,9 @@ function BugListItem({ bug }) {
                   className="btn border border-dark border-1 btn-primary btn-sm px-3 py-0"
                   type="button"
                 >
-                  <Link className='text-white text-decoration-none' to={`/bug/${bug._id}`}>Edit Bug</Link>
+                  <Link className="text-white text-decoration-none" to={`/bug/${bug._id}`}>
+                    Edit Bug
+                  </Link>
                 </button>
               </div>
             </div>
