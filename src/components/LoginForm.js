@@ -4,6 +4,7 @@ import _ from 'lodash';
 import jwt_decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import InputField from './InputField';
+import largeLogo from '../issue-tracker-logo.png';
 
 function LoginForm({ onLogin, showError }) {
   const [emailAddress, setEmail] = useState();
@@ -67,41 +68,48 @@ function LoginForm({ onLogin, showError }) {
   }
 
   return (
-    <div className="container col-md-6">
-      <h1>Login</h1>
-      <form>
-        <InputField
-          label="Email"
-          id="emailAddress"
-          autoComplete="email"
-          placeholder="name@example.com"
-          value={emailAddress}
-          onChange={(evt) => onInputChange(evt, setEmail)}
-          error={emailError}
-        />
-        <InputField
-          label="Password"
-          id="LoginForm-password"
-          type="password"
-          placeholder=""
-          autoComplete="current-password"
-          value={password}
-          onChange={(evt) => onInputChange(evt, setPassword)}
-          error={passwordError}
-        />
+    <div className='container d-flex flex-column justify-content-center'>
+    <div className="d-flex flex-wrap align-items-center justify-content-center mt-5">
+      <div className='col-lg-4 col-12 d-flex justify-content-center'>
+        <img className="large-logo" src={largeLogo} alt="Large logo" />
+      </div>
+      <div className="col-lg-4 col-12">
+        <h1>Login</h1>
+        <form>
+          <InputField
+            label="Email"
+            id="emailAddress"
+            autoComplete="email"
+            placeholder="name@example.com"
+            value={emailAddress}
+            onChange={(evt) => onInputChange(evt, setEmail)}
+            error={emailError}
+          />
+          <InputField
+            label="Password"
+            id="LoginForm-password"
+            type="password"
+            placeholder=""
+            autoComplete="current-password"
+            value={password}
+            onChange={(evt) => onInputChange(evt, setPassword)}
+            error={passwordError}
+          />
 
-        <div className="mb-3 d-flex align-items-center">
-          <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
-            Login
-          </button>
-          <div>
-            <div>Don't have an account yet?</div>
-            <Link to="/register">Register Here</Link>
+          <div className="mb-3 d-flex align-items-center">
+            <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+              Login
+            </button>
+            <div>
+              <div>Don't have an account yet?</div>
+              <Link to="/register">Register Here</Link>
+            </div>
           </div>
-        </div>
-        {error && <div className="mb-3 text-danger">{error}</div>}
-        {success && <div className="mb-3 text-success">{success}</div>}
-      </form>
+          {error && <div className="mb-3 text-danger">{error}</div>}
+          {success && <div className="mb-3 text-success">{success}</div>}
+        </form>
+      </div>
+    </div>
     </div>
   );
 }

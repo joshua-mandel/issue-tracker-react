@@ -107,6 +107,7 @@ function BugEditor({ auth, showError, showSuccess }) {
             id="title-update"
             value={title}
             onChange={(evt) => onInputChange(evt, setTitle)}
+            placeholder='Enter the title'
             error={titleError}
           />
           <InputField
@@ -114,6 +115,7 @@ function BugEditor({ auth, showError, showSuccess }) {
             id="title-update"
             value={description}
             onChange={(evt) => onInputChange(evt, setDescription)}
+            placeholder='Enter the description'
             error={descriptionError}
           />
           <InputField
@@ -121,6 +123,7 @@ function BugEditor({ auth, showError, showSuccess }) {
             id="steps-to-reproduce"
             value={stepsToReproduce}
             onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
+            placeholder='Enter the steps to reproduce'
             error={stepsToReproduceError}
           />
           <div className="mb-3">
@@ -160,6 +163,7 @@ function BugEditor({ auth, showError, showSuccess }) {
             id="assignedTo"
             value={assignedTo}
             onChange={(evt) => onInputChange(evt, setAssignedTo)}
+            placeholder='Enter assigned user'
           />
           {error && <div className="text-danger mb-1">{'Please fix the errors above'}</div>}
           {!pending && <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
