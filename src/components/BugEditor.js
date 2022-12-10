@@ -47,7 +47,7 @@ function BugEditor({ auth, showError, showSuccess }) {
           setError(err.message);
           showError(err.message);
         });
-    }, 0);
+    }, 250);
   }, [auth, showError, bugId]);
 
   function onInputChange(evt, setValue) {
@@ -98,11 +98,6 @@ function BugEditor({ auth, showError, showSuccess }) {
     <div className="container col-md-6">
       <h3 className="mb-2">Bug Editor</h3>
       <h5 className="mb-2">Welcome {auth?.payload.fullName}</h5>
-      {pending && (
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
       {bug && (
         <form>
           <h4 className="mb-3">BugId: {bugId}</h4>
@@ -166,9 +161,14 @@ function BugEditor({ auth, showError, showSuccess }) {
             onChange={(evt) => onInputChange(evt, setAssignedTo)}
           />
           {error && <div className="text-danger mb-1">{error}</div>}
-          <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+          {!pending && <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
             Update Bug
-          </button>
+          </button>}
+          {pending && (
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
         </form>
       )}
     </div>
