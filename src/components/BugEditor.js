@@ -12,6 +12,7 @@ function BugEditor({ auth, showError, showSuccess }) {
   const [description, setDescription] = useState('');
   const [stepsToReproduce, setStepsToReproduce] = useState('');
   const [assignedTo, setAssignedTo] = useState();
+  const [bugClass, setBugClass] = useState('');
   const [closed, setClosed] = useState();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -40,6 +41,9 @@ function BugEditor({ auth, showError, showSuccess }) {
           setTitle(res.data.title);
           setDescription(res.data.description);
           setStepsToReproduce(res.data.stepsToReproduce);
+          setBugClass(res.data.bugClass);
+          setClosed(res.data.closed);
+          setAssignedTo(res.data.assignedToId)
         })
         .catch((err) => {
           console.log(err);
@@ -134,10 +138,10 @@ function BugEditor({ auth, showError, showSuccess }) {
               id="classification"
               name="classification"
               className="form-select"
-              value={bug.bugClass}
-              onChange={(evt) => onInputChange(evt, setBug)}
+              value={bugClass}
+              onChange={(evt) => onInputChange(evt, setBugClass)}
             >
-              <option value="">All</option>
+              <option value="unclassified">Unclassified</option>
               <option value="approved">Approved</option>
               <option value="unapproved">Unapproved</option>
               <option value="duplicate">Duplicate</option>
@@ -152,7 +156,7 @@ function BugEditor({ auth, showError, showSuccess }) {
               name="closed"
               className="form-select"
               value={closed}
-              onChange={(evt) => setClosed(evt.currentTarget.value)}
+              onChange={(evt) => onInputChange(evt, setClosed)}
             >
               <option value="false">Open</option>
               <option value="true">Closed</option>
@@ -165,7 +169,7 @@ function BugEditor({ auth, showError, showSuccess }) {
             onChange={(evt) => onInputChange(evt, setAssignedTo)}
             placeholder='Enter assigned user'
           />
-          {error && <div className="text-danger mb-1">{'Please fix the errors above'}</div>}
+          {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
           {!pending && <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
             Update Bug
           </button>}

@@ -20,6 +20,11 @@ function Navbar({ auth, onLogout }) {
           {auth && (
             <div className="d-flex">
               <li className="nav-item">
+                <NavLink className="nav-link" to="/user/list">
+                  User List
+                </NavLink>
+              </li>
+              <li className="nav-item">
                 <NavLink className="nav-link" to="/bug/list">
                   Bug List
                 </NavLink>

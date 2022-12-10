@@ -11,11 +11,11 @@ export function UserList({ auth }) {
   useEffect(() => {
     setPending(true);
     setError('');
-    axios(`${process.env.REACT_APP_API_URL}/api/user/list`, {
+    setTimeout(() => {axios(`${process.env.REACT_APP_API_URL}/api/user/list`, {
       method: 'get',
       params: { pageSize: 1000 },
       headers: {
-        authorization: `Bearer ${auth?.token}`,
+        authorization: `Bearer ${auth.token}`,
       },
     })
       .then((res) => {
@@ -32,6 +32,7 @@ export function UserList({ auth }) {
         setPending(false);
         setError(err.message);
       });
+    }, 250);
   }, [auth]);
   return (
     <div>
