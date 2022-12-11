@@ -15,45 +15,41 @@ function RegisterForm({ onLogin, showError }) {
   const [familyName, setFamilyName] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
-  const emailError = !emailAddress
-    ? 'Email is required.'
-    : !emailAddress.includes('@')
-    ? 'Email must include an @ sign.'
-    : '';
-
-  const emailConfirmError = !emailAddressConfirm
-    ? 'Please confirm email.'
-    : !emailAddressConfirm.includes('@')
-    ? 'Email must include an @ sign.'
-    : emailAddress !== emailAddressConfirm
-    ? 'Emails must match'
-    : '';
-
-  const passwordError = !password
-    ? 'Password is required.'
-    : password.length < 8
-    ? 'Password must be at least 8 characters.'
-    : '';
-
-  const passwordConfirmError = !passwordConfirm
-    ? 'Please confirm password'
-    : passwordConfirm.length < 8
-    ? 'Password must be at least 8 characters.'
-    : password !== passwordConfirm
-    ? 'Passwords must match.'
-    : '';
-
-    const givenNameError = !givenName
-    ? 'Please enter a first name.'
-    : '';
-
-    const familyNameError = !familyName
-    ? 'Please enter a last name.'
-    : '';
+  const [emailError, setEmailError] = useState('');
+  const [emailConfirmError, setEmailConfirmError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordConfirmError, setPasswordConfirmError] = useState('');
+  const [givenNameError, setGivenNameError] = useState('');
+  const [familyNameError, setFamilyNameError] = useState('');
 
   function onClickSubmit(evt) {
     evt.preventDefault();
+    setEmailError(
+      !emailAddress ? 'Email is required.' : !emailAddress.includes('@') ? 'Email must include an @ sign.' : ''
+    );
+    setEmailConfirmError(
+      !emailAddressConfirm
+        ? 'Please confirm email.'
+        : !emailAddressConfirm.includes('@')
+        ? 'Email must include an @ sign.'
+        : emailAddress !== emailAddressConfirm
+        ? 'Emails must match'
+        : ''
+    );
+    setPasswordError(
+      !password ? 'Password is required.' : password.length < 8 ? 'Password must be at least 8 characters.' : ''
+    );
+    setPasswordConfirmError(
+      !passwordConfirm
+        ? 'Please confirm password'
+        : passwordConfirm.length < 8
+        ? 'Password must be at least 8 characters.'
+        : password !== passwordConfirm
+        ? 'Passwords must match.'
+        : ''
+    );
+    setGivenNameError(!givenName ? 'Please enter a first name.' : '');
+    setFamilyNameError(!familyName ? 'Please enter a last name.' : '');
     setError('');
     setSuccess('');
 
@@ -82,6 +78,7 @@ function RegisterForm({ onLogin, showError }) {
       })
       .catch((err) => {
         console.error(err);
+        showError('Please fix the errors.');
         const resError = err?.response?.data?.error;
         if (resError) {
           if (typeof resError === 'string') {
@@ -105,7 +102,7 @@ function RegisterForm({ onLogin, showError }) {
   }
 
   return (
-    <div className='container col-md-6'>
+    <div className="container col-md-6">
       <h1>Register</h1>
       <form>
         <InputField
@@ -172,9 +169,7 @@ function RegisterForm({ onLogin, showError }) {
             <Link to="/login">Login Here</Link>
           </div>
         </div>
-
-        {error && <div className="mb-3 text-danger">{error}</div>}
-        {success && <div className="mb-3 text-success">{success}</div>}
+        {error && <div className="text-danger mb-3">{error}</div>}
       </form>
     </div>
   );

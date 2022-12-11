@@ -30,7 +30,7 @@ function UserListItem({ user }) {
               {roleArray && (
                 <div className="d-flex flex-wrap">
                   {_.map(user.role, (role) => (
-                    <span className=" badge bg-primary me-1">{role}</span>
+                    <span className=" badge bg-primary me-1 mb-1">{role}</span>
                   ))}
                 </div>
               )}

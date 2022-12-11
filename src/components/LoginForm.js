@@ -105,8 +105,7 @@ function LoginForm({ onLogin, showError }) {
               <Link to="/register">Register Here</Link>
             </div>
           </div>
-          {error && <div className="mb-3 text-danger">{error}</div>}
-          {success && <div className="mb-3 text-success">{success}</div>}
+          {error && <div className="text-danger mb-3">{error}</div>}
         </form>
       </div>
     </div>

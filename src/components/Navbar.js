@@ -21,7 +21,7 @@ function Navbar({ auth, onLogout }) {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div id="navbarNav" className="collapse navbar-collapse">
-          <ul className="navbar-nav d-flex">
+          <ul className="navbar-nav d-flex fs-5 my-2">
             {!auth && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/login">
@@ -30,7 +30,7 @@ function Navbar({ auth, onLogout }) {
               </li>
             )}
             {auth && (
-              <div className="d-flex flex-column justify-content-end">
+              <div className="d-flex justify-content-between">
                 <li className="nav-item d-flex justify-content-end">
                   <NavLink className="nav-link" to="/user/list">
                     User List

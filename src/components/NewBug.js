@@ -9,54 +9,53 @@ function NewBug({ auth, showError, showSuccess }) {
   const [description, setDescription] = useState('');
   const [stepsToReproduce, setStepsToReproduce] = useState('');
   const [pending, setPending] = useState(false);
+  const [titleError, setTitleError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
+  const [stepsToReproduceError, setStepsToReproduceError] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
-  const titleError = !title ? 'Please include a title.' : '';
-
-  const descriptionError = !description ? 'Please include a description' : '';
-
-  const stepsToReproduceError = !stepsToReproduce ? 'Please include stepsToReproduce' : '';
-
   function onClickSubmit(evt) {
     evt.preventDefault();
-      setPending(true);
-      setError('');
-      setSuccess('');
-      axios(`${process.env.REACT_APP_API_URL}/api/bug/new`, {
-        method: 'put',
-        headers: {
-          authorization: `Bearer ${auth?.token}`,
-        },
-        data: {
-          title: title,
-          description: description,
-          stepsToReproduce: stepsToReproduce,
-        },
+    setTitleError(!title ? 'Please include a Title.' : '');
+    setDescriptionError(!description ? 'Please include a description' : '');
+    setStepsToReproduceError(!stepsToReproduce ? 'Please include Steps to Reproduce' : '');
+    setPending(true);
+    setError('');
+    setSuccess('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/new`, {
+      method: 'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        title: title,
+        description: description,
+        stepsToReproduce: stepsToReproduce,
+      },
+    })
+      .then((res) => {
+        const bugId = res.data.bugId;
+        console.log(res.data);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          // setBug(res.data);
+          navigate('/bug/list');
+          showSuccess(`New Bug Reported. BugId: ${bugId}`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
       })
-        .then((res) => {
-          const bugId = res.data.bugId;
-          console.log(res.data);
-          setPending(false);
-          if (_.isObject(res.data)) {
-            // setBug(res.data);
-            navigate('/bug/list');
-            showSuccess(`New Bug Reported. BugId: ${bugId}`);
-          } else {
-            setError('Expected an object');
-            showError(error + ' Expected an object');
-          }
-        })
-        .catch((err) => {
-          console.log('Bug Not Reported');
-          console.error(err);
-          setPending(false);
-          setError(err.message);
-          showError('Please fix the errors.');
-        });
-    
+      .catch((err) => {
+        console.log('Bug Not Reported');
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        showError('Please fix the errors.');
+      });
   }
 
   function onInputChange(evt, setValue) {
@@ -94,15 +93,17 @@ function NewBug({ auth, showError, showSuccess }) {
           placeholder="Enter the steps to reproduce"
           error={stepsToReproduceError}
         />
-                  {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
-          {!pending && <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+        {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
+        {!pending && (
+          <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
             Update Bug
-          </button>}
-          {pending && (
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
+          </button>
+        )}
+        {pending && (
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        )}
       </form>
     </div>
   );
