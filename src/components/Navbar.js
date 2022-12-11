@@ -42,6 +42,11 @@ function Navbar({ auth, onLogout }) {
                   </NavLink>
                 </li>
                 <li className="nav-item d-flex justify-content-end">
+                  <NavLink className="nav-link" to="/bug/report">
+                    Report a New Bug
+                  </NavLink>
+                </li>
+                <li className="nav-item d-flex justify-content-end">
                   <NavLink className="nav-link" to="/login" onClick={(evt) => onLogout(evt)}>
                     Logout
                   </NavLink>

@@ -13,6 +13,7 @@ import UserEditor from './components/UserEditor';
 import UserList from './components/UserList';
 import { useState, useEffect } from 'react';
 import './styles/App.css';
+import NewBug from './components/NewBug';
 
 function App() {
   const [auth, setAuth] = useState(null);
@@ -75,6 +76,7 @@ function App() {
             <Route path="/register" element={<RegisterForm onLogin={onLogin} showError={showError} />} />
             <Route path="/bug/list" element={<BugList auth={auth} />} />
             <Route path="/bug/:bugId" element={<BugEditor auth={auth} showError={showError} showSuccess={showSuccess} />} />
+            <Route path="/bug/report" element={<NewBug auth={auth} showError={showError} showSuccess={showSuccess} />} />
             <Route path="/user/list" element={<UserList auth={auth} />} />
             <Route path="user/:userId" element={<UserEditor auth={auth} showError={showError} showSuccess={showSuccess} />} />
             <Route path="*" element={<NotFound />} />
