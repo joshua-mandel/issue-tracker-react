@@ -17,6 +17,7 @@ function BugList({ auth }) {
   const [checked, setChecked] = useState(true);
   const [minAge, setMinAge] = useState();
   const [maxAge, setMaxAge] = useState();
+  const [sortBy, setSortBy] = useState();
 
   function onInputChange(evt, setValue) {
     const newValue = evt.currentTarget.value;
@@ -39,7 +40,15 @@ function BugList({ auth }) {
     setTimeout(() => {
       axios(`${process.env.REACT_APP_API_URL}/api/bug/list`, {
         method: 'get',
-        params: { pageSize: 1000, bugClass: bugClass, closed: closed, open: open, minAge: minAge, maxAge: maxAge },
+        params: {
+          pageSize: 1000,
+          bugClass: bugClass,
+          closed: closed,
+          open: open,
+          minAge: minAge,
+          maxAge: maxAge,
+          sortBy: sortBy,
+        },
         headers: {
           authorization: `Bearer ${auth.token}`,
         },
@@ -63,14 +72,14 @@ function BugList({ auth }) {
           setError(err.message);
         });
     }, 250);
-  }, [auth, bugClass, closed, open, minAge, maxAge]);
+  }, [auth, bugClass, closed, open, minAge, maxAge, sortBy]);
 
   return (
     <div className="container">
       <div className="" id="bug-list-component">
         <h3 className="mb-1">Bug List</h3>
         {auth?.payload.fullName && <h5 className="mb-3">Welcome {auth?.payload.fullName}</h5>}
-        <div className="d-flex align-items-center justify-content-between m-2">
+        <div className="d-flex flex-wrap align-items-center justify-content-between m-2">
           <div className="d-flex align-items-end">
             <label htmlFor="classification" className="form-label me-2">
               Classification:
@@ -105,22 +114,48 @@ function BugList({ auth }) {
               <label className="form-check-label">Closed</label>
             </div>
           </div>
-          <div className='col-2'>
-          <div className="d-flex align-items-end mb-2">
-            <label htmlFor="classification" className="form-label col-5">
-              Min Age:
-            </label>
-            <input type="number" value={minAge} id="min-age-input" className="form-control" onChange={(evt) => onInputChange(evt, setMinAge)} />
+          <div className="col-2">
+            <div className="d-flex align-items-end mb-2">
+              <label htmlFor="classification" className="form-label col-5">
+                Min Age:
+              </label>
+              <input
+                type="number"
+                value={minAge}
+                id="min-age-input"
+                className="form-control"
+                onChange={(evt) => onInputChange(evt, setMinAge)}
+              />
+            </div>
+            <div className="d-flex align-items-end">
+              <label htmlFor="classification" className="form-label col-5">
+                Max Age:
+              </label>
+              <input
+                type="number"
+                value={maxAge}
+                id="min-age-input"
+                className="form-control"
+                onChange={(evt) => onInputChange(evt, setMaxAge)}
+              />
+            </div>
           </div>
           <div className="d-flex align-items-end">
-            <label htmlFor="classification" className="form-label col-5">
-              Max Age:
+            <label htmlFor="classification" className="form-label col-4 me-2">
+              Sort By:
             </label>
-            <input type="number" value={maxAge} id="min-age-input" className="form-control" onChange={(evt) => onInputChange(evt, setMaxAge)} />
+            <div className='col-9'>
+              <DropDown className="form-select" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
+                <option value=""></option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="title">Title</option>
+                <option value="assignedTo">Assigned To</option>
+                <option value="createdBy">Reported By</option>
+              </DropDown>
+            </div>
           </div>
-          </div>
-          
-          <div className="col-3">
+          <div className="col-lg-3 col-12 my-2">
             <div class="input-group">
               <input
                 type="text"
