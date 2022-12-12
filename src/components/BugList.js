@@ -2,11 +2,36 @@ import { useState, useEffect } from 'react';
 import BugListItem from './BugListItem';
 import axios from 'axios';
 import _ from 'lodash';
+import DropDown from './DropDown';
+import DefaultCheckedBox from './DefaultCheckedBox';
+import InputField from './InputField';
 
 function BugList({ auth }) {
   const [error, setError] = useState('');
   const [pending, setPending] = useState(true);
   const [bugs, setBugs] = useState(null);
+  const [keywords, setKeywords] = useState('');
+  const [bugClass, setBugClass] = useState('');
+  const [closed, setClosed] = useState('');
+  const [open, setOpen] = useState(true);
+  const [checked, setChecked] = useState(true);
+  const [minAge, setMinAge] = useState();
+  const [maxAge, setMaxAge] = useState();
+
+  function onInputChange(evt, setValue) {
+    const newValue = evt.currentTarget.value;
+    setValue(newValue);
+    console.log(newValue);
+  }
+
+  function handleClosedCheckbox(evt) {
+    if (evt.currentTarget.checked) {
+      setClosed('true');
+    } else {
+      setClosed('');
+    }
+    console.log(closed);
+  }
 
   useEffect(() => {
     setPending(true);
@@ -14,7 +39,7 @@ function BugList({ auth }) {
     setTimeout(() => {
       axios(`${process.env.REACT_APP_API_URL}/api/bug/list`, {
         method: 'get',
-        params: { pageSize: 1000 },
+        params: { pageSize: 1000, bugClass: bugClass, closed: closed, open: open, minAge: minAge, maxAge: maxAge },
         headers: {
           authorization: `Bearer ${auth.token}`,
         },
@@ -38,15 +63,80 @@ function BugList({ auth }) {
           setError(err.message);
         });
     }, 250);
-  }, [auth]);
-
-  // console.log(props.auth.payload.fullName);
+  }, [auth, bugClass, closed, open, minAge, maxAge]);
 
   return (
     <div className="container">
-      <div className="" id="login-component">
+      <div className="" id="bug-list-component">
         <h3 className="mb-1">Bug List</h3>
         {auth?.payload.fullName && <h5 className="mb-3">Welcome {auth?.payload.fullName}</h5>}
+        <div className="d-flex align-items-center justify-content-between m-2">
+          <div className="d-flex align-items-end">
+            <label htmlFor="classification" className="form-label me-2">
+              Classification:
+            </label>
+            <DropDown className="form-select" value={bugClass} onChange={(evt) => onInputChange(evt, setBugClass)}>
+              <option value="">All</option>
+              <option value="unclassified">Unclassified</option>
+              <option value="approved">Approved</option>
+              <option value="unapproved">Unapproved</option>
+              <option value="duplicate">Duplicate</option>
+            </DropDown>
+          </div>
+          <div className="d-flex flex-column">
+            <div className="form-check">
+              <DefaultCheckedBox
+                className="form-check-input"
+                value={open}
+                setChecked={setChecked}
+                checked={checked}
+                open={open}
+                setOpen={setOpen}
+              />
+              <label className="form-check-label">Open</label>
+            </div>
+            <div className="form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                value={closed}
+                onChange={(evt) => handleClosedCheckbox(evt)}
+              />
+              <label className="form-check-label">Closed</label>
+            </div>
+          </div>
+          <div className='col-2'>
+          <div className="d-flex align-items-end mb-2">
+            <label htmlFor="classification" className="form-label col-5">
+              Min Age:
+            </label>
+            <input type="number" value={minAge} id="min-age-input" className="form-control" onChange={(evt) => onInputChange(evt, setMinAge)} />
+          </div>
+          <div className="d-flex align-items-end">
+            <label htmlFor="classification" className="form-label col-5">
+              Max Age:
+            </label>
+            <input type="number" value={maxAge} id="min-age-input" className="form-control" onChange={(evt) => onInputChange(evt, setMaxAge)} />
+          </div>
+          </div>
+          
+          <div className="col-3">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Keywords"
+                value={keywords}
+                onChange={(evt) => onInputChange(evt, setKeywords)}
+                aria-label="Recipient's username"
+                aria-describedby="button-search"
+              />
+              <button class="btn btn-outline-primary" type="button" id="button-search">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
         {pending && (
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
