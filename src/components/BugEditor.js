@@ -194,7 +194,7 @@ function BugEditor({ auth, showError, showSuccess }) {
         authorization: `Bearer ${auth?.token}`,
       },
       data: {
-        closed: closed,
+        bugClass: bugClass,
       },
     })
       .then((res) => {
@@ -332,7 +332,7 @@ function BugEditor({ auth, showError, showSuccess }) {
                   <option value="duplicate">Duplicate</option>
                 </DropDown>
                 <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitBugClass(evt)}>
-                  Update
+                  Classify
                 </button>
               </div>
             </div>
