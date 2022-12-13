@@ -4,6 +4,7 @@ import InputField from './InputField';
 import DropDown from './DropDown';
 import axios from 'axios';
 import _ from 'lodash';
+import CommentListItem from './CommentListItem';
 
 function BugEditor({ auth, showError, showSuccess }) {
   const { bugId } = useParams();
@@ -17,6 +18,9 @@ function BugEditor({ auth, showError, showSuccess }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [pending, setPending] = useState(true);
+  const [comments, setComments] = useState(null);
+  const [newComment, setNewComment] = useState('');
+  const [commentError, setCommentError] = useState('');
 
   const navigate = useNavigate();
 
@@ -42,8 +46,13 @@ function BugEditor({ auth, showError, showSuccess }) {
           setDescription(res.data.description);
           setStepsToReproduce(res.data.stepsToReproduce);
           setBugClass(res.data.bugClass);
-          setClosed(res.data.closed);
-          setAssignedTo(res.data.assignedToId)
+          if (res.data.closed) {
+            setClosed('close');
+          } else {
+            setClosed('open');
+          }
+          setAssignedTo(res.data.assignedToId);
+          setComments(res.data.comments);
         })
         .catch((err) => {
           console.log(err);
@@ -60,43 +69,153 @@ function BugEditor({ auth, showError, showSuccess }) {
     console.log(newValue);
   }
 
+  function onClickSubmitComment(evt) {
+    evt.preventDefault();
+    setPending(true);
+    setError('');
+    setSuccess('');
+    setCommentError('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}/comment/new`, {
+      method: 'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        commentText: newComment,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        console.log(`Bug: `, bug);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          // setBug(res.data);
+          navigate('/bug/list');
+          showSuccess(`Bug with id: ${bugId} updated`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
+      })
+      .catch((err) => {
+        console.log(`Bug: `, bug);
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        setCommentError('Comment cannot be blank.');
+        showError('Please fix the errors.');
+      });
+  }
+
   function onClickSubmit(evt) {
     evt.preventDefault();
-      setPending(true);
-      setError('');
-      setSuccess('');
-      axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}`, {
-        method: 'put',
-        headers: {
-          authorization: `Bearer ${auth?.token}`,
-        },
-        data: {
-          title: title,
-          description: description,
-          stepsToReproduce: stepsToReproduce,
-        },
+    setPending(true);
+    setError('');
+    setSuccess('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}`, {
+      method: 'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        title: title,
+        description: description,
+        stepsToReproduce: stepsToReproduce,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        console.log(`Bug: `, bug);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          // setBug(res.data);
+          navigate('/bug/list');
+          showSuccess(`Bug with id: ${bugId} updated`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
       })
-        .then((res) => {
-          console.log(res.data);
-          console.log(`Bug: `, bug);
-          setPending(false);
-          if (_.isObject(res.data)) {
-            // setBug(res.data);
-            navigate('/bug/list');
-            showSuccess(`Bug with id: ${bugId} updated`);
-          } else {
-            setError('Expected an object');
-            showError(error + ' Expected an object');
-          }
-        })
-        .catch((err) => {
-          console.log(`Bug: `, bug);
-          console.error(err);
-          setPending(false);
-          setError(err.message);
-          showError('Please fix the errors.');
-        });
-    
+      .catch((err) => {
+        console.log(`Bug: `, bug);
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        showError('Please fix the errors.');
+      });
+  }
+
+  function onClickSubmitOpenClose(evt) {
+    evt.preventDefault();
+    setPending(true);
+    setError('');
+    setSuccess('');
+    setCommentError('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}/close`, {
+      method: 'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        closed: closed,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        console.log(`Bug: `, bug);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          // setBug(res.data);
+          navigate('/bug/list');
+          showSuccess(`Bug with id: ${bugId} updated`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
+      })
+      .catch((err) => {
+        console.log(`Bug: `, bug);
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        showError('Please fix the errors.');
+      });
+  }
+
+  function onClickSubmitBugClass(evt) {
+    evt.preventDefault();
+    setPending(true);
+    setError('');
+    setSuccess('');
+    setCommentError('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}/classify`, {
+      method: 'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        closed: closed,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        console.log(`Bug: `, bug);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          navigate('/bug/list');
+          showSuccess(`Bug with id: ${bugId} updated`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
+      })
+      .catch((err) => {
+        console.log(`Bug: `, bug);
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        showError('Please fix the errors.');
+      });
   }
 
   return (
@@ -104,81 +223,122 @@ function BugEditor({ auth, showError, showSuccess }) {
       <h3 className="mb-2">Bug Editor</h3>
       <h5 className="mb-2">Welcome {auth?.payload.fullName}</h5>
       {bug && (
-        <form>
-          <h4 className="mb-3">BugId: {bugId}</h4>
-          <InputField
-            label="Title:"
-            id="title-update"
-            value={title}
-            onChange={(evt) => onInputChange(evt, setTitle)}
-            placeholder='Enter the title'
-            error={titleError}
-          />
-          <InputField
-            label="Description:"
-            id="title-update"
-            value={description}
-            onChange={(evt) => onInputChange(evt, setDescription)}
-            placeholder='Enter the description'
-            error={descriptionError}
-          />
-          <InputField
-            label="Steps to Reproduce:"
-            id="steps-to-reproduce"
-            value={stepsToReproduce}
-            onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
-            placeholder='Enter the steps to reproduce'
-            error={stepsToReproduceError}
-          />
-          <div className="mb-3">
-            <label htmlFor="classification" className="form-label">
-              Classification:
-            </label>
-            <DropDown
-              id="classification"
-              name="classification"
-              className="form-select"
-              value={bugClass}
-              onChange={(evt) => onInputChange(evt, setBugClass)}
-            >
-              <option value="unclassified">Unclassified</option>
-              <option value="approved">Approved</option>
-              <option value="unapproved">Unapproved</option>
-              <option value="duplicate">Duplicate</option>
-            </DropDown>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="closed" className="form-label">
-              Open or Closed:
-            </label>
-            <DropDown
-              id="closed"
-              name="closed"
-              className="form-select"
-              value={closed}
-              onChange={(evt) => onInputChange(evt, setClosed)}
-            >
-              <option value="false">Open</option>
-              <option value="true">Closed</option>
-            </DropDown>
-          </div>
-          <InputField
-            label="Assigned To:"
-            id="assignedTo"
-            value={assignedTo}
-            onChange={(evt) => onInputChange(evt, setAssignedTo)}
-            placeholder='Enter assigned user'
-          />
+        <>
+          <form>
+            <h4 className="mb-3">BugId: {bugId}</h4>
+            <InputField
+              label="Title:"
+              id="title-update"
+              value={title}
+              onChange={(evt) => onInputChange(evt, setTitle)}
+              placeholder="Enter the title"
+              error={titleError}
+            />
+            <InputField
+              label="Description:"
+              id="title-update"
+              value={description}
+              onChange={(evt) => onInputChange(evt, setDescription)}
+              placeholder="Enter the description"
+              error={descriptionError}
+            />
+            <InputField
+              label="Steps to Reproduce:"
+              id="steps-to-reproduce"
+              value={stepsToReproduce}
+              onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
+              placeholder="Enter the steps to reproduce"
+              error={stepsToReproduceError}
+            />
+            <div className="mb-3">
+              {!pending && (
+                <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+                  Update Bug
+                </button>
+              )}
+              {pending && (
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              )}
+            </div>
+          </form>
+          <form>
+            <div className="mb-3">
+              <h6 className="fs-3">Comments</h6>
+              {comments && _.map(comments, (comment) => <CommentListItem key={comment._id} comment={comment} />)}
+              {!comments && <div>No Comments Yet</div>}
+            </div>
+            <div className="mb-3 input-group">
+              <input
+                className="form-control"
+                label="Add a Comment:"
+                id="assignedTo"
+                value={newComment}
+                onChange={(evt) => onInputChange(evt, setNewComment)}
+                placeholder="Enter a comment"
+              />
+              <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitComment(evt)}>
+                Add Comment
+              </button>
+            </div>
+            {commentError && <div className="text-danger mb-3">{'Comment cannot be empty'}</div>}
+          </form>
+          <form>
+            <div className="mb-3">
+              <label htmlFor="closed" className="form-label">
+                Open or Closed:
+              </label>
+              <div className="input-group">
+                <DropDown
+                  id="closed"
+                  name="closed"
+                  className="form-select"
+                  value={closed}
+                  onChange={(evt) => onInputChange(evt, setClosed)}
+                >
+                  <option value="open">Open</option>
+                  <option value="close">Closed</option>
+                </DropDown>
+                <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitOpenClose(evt)}>
+                  Update
+                </button>
+              </div>
+            </div>
+            <InputField
+              label="Assigned To:"
+              id="assignedTo"
+              value={assignedTo}
+              onChange={(evt) => onInputChange(evt, setAssignedTo)}
+              placeholder="Enter assigned user"
+            />
+          </form>
+          <form>
+            <div className="mb-3">
+              <label htmlFor="classification" className="form-label">
+                Classification:
+              </label>
+              <div className='input-group'>
+                <DropDown
+                  id="classification"
+                  name="classification"
+                  className="form-select"
+                  value={bugClass}
+                  onChange={(evt) => onInputChange(evt, setBugClass)}
+                >
+                  <option value="unclassified">Unclassified</option>
+                  <option value="approved">Approved</option>
+                  <option value="unapproved">Unapproved</option>
+                  <option value="duplicate">Duplicate</option>
+                </DropDown>
+                <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitBugClass(evt)}>
+                  Update
+                </button>
+              </div>
+            </div>
+          </form>
           {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
-          {!pending && <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
-            Update Bug
-          </button>}
-          {pending && (
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-        </form>
+        </>
       )}
     </div>
   );

@@ -10,7 +10,7 @@ function Navbar({ auth, onLogout }) {
           {auth && <span className="navbar-text">{auth.emailAddress}</span>}
         </div>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -18,7 +18,7 @@ function Navbar({ auth, onLogout }) {
           aria-expanded="true"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
         <div id="navbarNav" className="collapse navbar-collapse">
           <ul className="navbar-nav d-flex fs-5 my-2">

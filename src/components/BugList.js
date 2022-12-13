@@ -4,7 +4,6 @@ import axios from 'axios';
 import _ from 'lodash';
 import DropDown from './DropDown';
 import DefaultCheckedBox from './DefaultCheckedBox';
-import InputField from './InputField';
 
 function BugList({ auth }) {
   const [error, setError] = useState('');
@@ -73,6 +72,46 @@ function BugList({ auth }) {
         });
     }, 250);
   }, [auth, bugClass, closed, open, minAge, maxAge, sortBy]);
+
+  function onClickSubmit(evt) {
+    evt.preventDefault();
+    setPending(true);
+    setError('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/list`, {
+      method: 'get',
+      params: {
+        pageSize: 1000,
+        bugClass: bugClass,
+        closed: closed,
+        open: open,
+        minAge: minAge,
+        maxAge: maxAge,
+        sortBy: sortBy,
+        keywords: keywords,
+      },
+      headers: {
+        authorization: `Bearer ${auth.token}`,
+      },
+    })
+      .then((res) => {
+        setPending(false);
+        if (_.isArray(res.data)) {
+          if (_.isEmpty(res.data)) {
+            setError('No bugs found');
+            return;
+          } else {
+            setBugs(res.data);
+          }
+        } else {
+          setError('Expected an array.');
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+      });
+  }
 
   return (
     <div className="container">
@@ -144,7 +183,7 @@ function BugList({ auth }) {
             <label htmlFor="classification" className="form-label col-4 me-2">
               Sort By:
             </label>
-            <div className='col-9'>
+            <div className="col-9">
               <DropDown className="form-select" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
                 <option value=""></option>
                 <option value="newest">Newest</option>
@@ -156,20 +195,27 @@ function BugList({ auth }) {
             </div>
           </div>
           <div className="col-lg-3 col-12 my-2">
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Keywords"
-                value={keywords}
-                onChange={(evt) => onInputChange(evt, setKeywords)}
-                aria-label="Recipient's username"
-                aria-describedby="button-search"
-              />
-              <button class="btn btn-outline-primary" type="button" id="button-search">
-                Search
-              </button>
-            </div>
+            <form>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Keywords"
+                  value={keywords}
+                  onChange={(evt) => onInputChange(evt, setKeywords)}
+                  aria-label="Recipient's username"
+                  aria-describedby="button-search"
+                />
+                <button
+                  class="btn btn-outline-primary"
+                  type="submit"
+                  id="button-search"
+                  onClick={(evt) => onClickSubmit(evt)}
+                >
+                  Search
+                </button>
+              </div>
+            </form>
           </div>
         </div>
         {pending && (
