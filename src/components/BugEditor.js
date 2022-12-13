@@ -21,6 +21,7 @@ function BugEditor({ auth, showError, showSuccess }) {
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState('');
   const [commentError, setCommentError] = useState('');
+  const [assignError, setAssignError] = useState('');
 
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ function BugEditor({ auth, showError, showSuccess }) {
           } else {
             setClosed('open');
           }
-          setAssignedTo(res.data.assignedToId);
+          setAssignedTo(res.data.assignedToUserId);
           setComments(res.data.comments);
         })
         .catch((err) => {
@@ -90,8 +91,8 @@ function BugEditor({ auth, showError, showSuccess }) {
         setPending(false);
         if (_.isObject(res.data)) {
           // setBug(res.data);
-          navigate('/bug/list');
-          showSuccess(`Bug with id: ${bugId} updated`);
+          window.location.reload(false);
+          showSuccess(`Added Comment: ${newComment}`);
         } else {
           setError('Expected an object');
           showError(error + ' Expected an object');
@@ -218,6 +219,43 @@ function BugEditor({ auth, showError, showSuccess }) {
       });
   }
 
+  function onClickSubmitAssignedTo(evt) {
+    evt.preventDefault();
+    setPending(true);
+    setError('');
+    setSuccess('');
+    setAssignError('');
+    axios(`${process.env.REACT_APP_API_URL}/api/bug/${bugId}/assign`, {
+      method: 'put',
+      headers: {
+        authorization: `Bearer ${auth?.token}`,
+      },
+      data: {
+        assignedToUserId: assignedTo,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        console.log(`Bug: `, bug);
+        setPending(false);
+        if (_.isObject(res.data)) {
+          navigate('/bug/list');
+          showSuccess(`Bug with id: ${bugId} updated`);
+        } else {
+          setError('Expected an object');
+          showError(error + ' Expected an object');
+        }
+      })
+      .catch((err) => {
+        console.log(`Bug: `, bug);
+        console.error(err);
+        setPending(false);
+        setError(err.message);
+        setAssignError('Please enter a valid User Id');
+        showError('Please fix the errors.');
+      });
+  }
+
   return (
     <div className="container col-md-6">
       <h3 className="mb-2">Bug Editor</h3>
@@ -305,20 +343,32 @@ function BugEditor({ auth, showError, showSuccess }) {
                 </button>
               </div>
             </div>
-            <InputField
-              label="Assigned To:"
-              id="assignedTo"
-              value={assignedTo}
-              onChange={(evt) => onInputChange(evt, setAssignedTo)}
-              placeholder="Enter assigned user"
-            />
+          </form>
+          <form className="mb-3">
+            <label for="assignedTo" class="form-label">
+              Assigned To:
+            </label>
+            <div className="input-group">
+              <input
+                label="Assigned To:"
+                id="assignedTo"
+                className="form-control"
+                value={assignedTo}
+                onChange={(evt) => onInputChange(evt, setAssignedTo)}
+                placeholder="Enter assigned user"
+              />
+              <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitAssignedTo(evt)}>
+                Assign User
+              </button>
+            </div>
+            {assignError && <div className="text-danger mb-3">{'Please enter a valid User Id'}</div>}
           </form>
           <form>
             <div className="mb-3">
               <label htmlFor="classification" className="form-label">
                 Classification:
               </label>
-              <div className='input-group'>
+              <div className="input-group">
                 <DropDown
                   id="classification"
                   name="classification"
