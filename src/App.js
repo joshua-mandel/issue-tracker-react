@@ -68,7 +68,7 @@ function App() {
     <div className="App min-vh-100 d-flex flex-column">
       <Navbar auth={auth} onLogout={onLogout} />
       <div className="flex-grow-1">
-        <ToastContainer />
+        <ToastContainer theme="dark" />
         <main className="container my-5">
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />

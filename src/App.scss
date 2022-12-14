@@ -1,6 +1,8 @@
 // set variables up here, such as colors and font-family
 $primary: #0077b6;
-$danger: #9d0208;
+$danger: #e26d5c;
+$warning: #faf0ca;
+$success: #007200;
 $font-family-base: 'PT Sans', sans-serif;
 
 // import bootstrap stylesheet
@@ -19,12 +21,12 @@ $font-family-base: 'PT Sans', sans-serif;
   width: 175px;
 }
 
-.card-body{
+.card-body {
   background-color: #415a77;
 }
 
 .card-footer {
-  background-color: #778da9;
+  background-color: #264653;
 }
 
 .card {
@@ -33,4 +35,8 @@ $font-family-base: 'PT Sans', sans-serif;
 
 h1, h2, h3, h4, h5, h6, div, span {
   color: white;
+}
+
+a, a:hover {
+  color: $primary;
 }

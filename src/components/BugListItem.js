@@ -13,13 +13,13 @@ function BugListItem({ bug }) {
           <h5 className="card-title mb-4 fs-4">{bug.title}</h5>
           <div className="card-text d-flex align-items-center justify-content-between">
             <div className="d-flex flex-column col-4">
-              {bug.closed === true && <span className="badge bg-danger mb-2">Closed</span>}
-              {bug.closed === false && <span className="badge bg-success mb-2">Open</span>}
-              {bug.bugClass === 'approved' && <span className=" badge bg-success">Approved</span>}
-              {bug.bugClass === 'unapproved' && <span className=" badge bg-danger">Unapproved</span>}
-              {bug.bugClass === 'duplicate' && <span className=" badge bg-danger">Duplicate</span>}
+              {bug.closed === true && <span className="badge text-white bg-danger mb-2">CLOSED</span>}
+              {bug.closed === false && <span className="badge text-white bg-success text-black mb-2">OPEN</span>}
+              {bug.bugClass === 'approved' && <span className=" badge text-white bg-success">APPROVED</span>}
+              {bug.bugClass === 'unapproved' && <span className=" badge text-white bg-danger">UNAPPROVED</span>}
+              {bug.bugClass === 'duplicate' && <span className=" badge text-white bg-danger">DUPLICATE</span>}
               {bug.bugClass === 'unclassified' && (
-                <span className=" badge text-dark bg-warning">Unclassified</span>
+                <span className=" badge text-dark bg-warning">UNCLASSIFIED</span>
               )}
             </div>
             <div>

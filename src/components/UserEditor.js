@@ -166,7 +166,7 @@ function UserEditor({ auth, showError, showSuccess }) {
               error={emailAddressError}
             />
             <div className="mb-3">
-              <label htmlFor="role" className="form-label">
+              <label htmlFor="role" className="form-label fs-5">
                 Role:
               </label>
               <DropDown
@@ -184,9 +184,9 @@ function UserEditor({ auth, showError, showSuccess }) {
                 <option value="Technical Manager">Technical Manager</option>
               </DropDown>
             </div>
-            <div className="mb-3">
+            <div className="mb-4">
               {!pending && (
-                <button className="btn btn-primary mb-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+                <button className="btn btn-primary mb-3 col-12" type="submit" onClick={(evt) => onClickSubmit(evt)}>
                   Update User
                 </button>
               )}

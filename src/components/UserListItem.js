@@ -23,9 +23,11 @@ function UserListItem({ user }) {
     <div className="col-md-6 col-12 p-2">
       <div className="card h-100 bg-light">
         <div className="card-body d-flex align-items-center justify-content-between">
-          <div className="">
-            <h5 className="card-title mb-1 fs-4">{user.fullName}</h5>
-            <h6 className="card-text mb-2">{user.emailAddress}</h6>
+          <div className="d-flex flex-column">
+            <div>
+              <h5 className="card-title mb-1 fs-4">{user.fullName}</h5>
+              <h6 className="card-text mb-2">{user.emailAddress}</h6>
+            </div>
             <div>
               {roleArray && (
                 <div className="d-flex flex-column col-8">

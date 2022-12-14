@@ -7,7 +7,7 @@ function Navbar({ auth, onLogout }) {
       <nav className="container">
         <div>
           <img className="img-fluid me-4 logo-sm" src={smallLogo} alt="logo" />
-          {auth && <span className="navbar-text fs-5-md">{auth.emailAddress}</span>}
+          {auth && <span className="navbar-text fs-4-md">{auth.emailAddress}</span>}
         </div>
         <button
           className="navbar-toggler"
