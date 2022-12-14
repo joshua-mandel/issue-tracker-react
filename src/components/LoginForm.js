@@ -70,11 +70,11 @@ function LoginForm({ onLogin, showError }) {
   return (
     <div className='container d-flex flex-column justify-content-center'>
     <div className="d-flex flex-wrap align-items-center justify-content-center mt-5">
-      <div className='col-lg-4 col-12 d-flex justify-content-center'>
+      <div className='col-lg-4 col-12 d-flex justify-content-center mb-3'>
         <img className="large-logo" src={largeLogo} alt="Large logo" />
       </div>
       <div className="col-lg-4 col-12">
-        <h1>Login</h1>
+        <h1 className='mb-3'>Login</h1>
         <form>
           <InputField
             label="Email"

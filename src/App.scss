@@ -1,7 +1,15 @@
-#background {
-  background-color: #789ee5;
-  height: 100vh;
-}
+// set variables up here, such as colors and font-family
+$primary: #0077b6;
+$danger: #9d0208;
+$font-family-base: 'PT Sans', sans-serif;
+
+// import bootstrap stylesheet
+@import "~bootswatch/dist/solar/variables";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/solar/bootswatch";
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+
+// add additional css rules here...
 
 .logo-sm {
   width: 65px;
@@ -9,4 +17,20 @@
 
 .large-logo {
   width: 175px;
+}
+
+.card-body{
+  background-color: #415a77;
+}
+
+.card-footer {
+  background-color: #778da9;
+}
+
+.card {
+  border-radius: 20px;
+}
+
+h1, h2, h3, h4, h5, h6, div, span {
+  color: white;
 }

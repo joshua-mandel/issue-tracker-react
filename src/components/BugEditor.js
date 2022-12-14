@@ -266,7 +266,6 @@ function BugEditor({ auth, showError, showSuccess }) {
           <div className="d-flex flex-column flex-md-row justify-content-between">
             <div className="editor col-md-6">
               <form>
-                
                 <InputField
                   label="Title:"
                   id="title-update"
@@ -375,10 +374,6 @@ function BugEditor({ auth, showError, showSuccess }) {
               <form>
                 <div className="mb-3">
                   <h6 className="fs-4 mb-2">Comments</h6>
-                  {comments && _.map(comments, (comment) => <CommentListItem key={comment._id} comment={comment} />)}
-                  {!comments && <div>No Comments Yet</div>}
-                </div>
-                <div className="">
                   <div className="mb-3 input-group">
                     <input
                       className="form-control"
@@ -392,6 +387,8 @@ function BugEditor({ auth, showError, showSuccess }) {
                       Add Comment
                     </button>
                   </div>
+                  {comments && _.map(comments, (comment) => <CommentListItem key={comment._id} comment={comment} />)}
+                  {!comments && <div className='fs-4'>No Comments Yet</div>}
                 </div>
 
                 {commentError && <div className="text-danger mb-3">{'Comment cannot be empty'}</div>}
