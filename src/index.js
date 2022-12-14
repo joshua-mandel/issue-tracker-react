@@ -4,11 +4,6 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/js/bootstrap.min.js';
-import { disableReactDevTools } from '@fvilers/disable-react-devtools';
-
-if(process.env.NODE_ENV === 'production') {
-  disableReactDevTools();
-}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
