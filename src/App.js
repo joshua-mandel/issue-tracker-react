@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 import RegisterForm from './components/RegisterForm';
 import Navbar from './components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
-import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
 import 'react-toastify/dist/ReactToastify.css';
 import UserEditor from './components/UserEditor';
 import UserList from './components/UserList';
@@ -23,7 +23,7 @@ function App() {
     if (localStorage) {
       const storedAuthToken = localStorage.getItem('authToken');
       if (storedAuthToken) {
-        const authPayload = jwt.decode(storedAuthToken);
+        const authPayload = jwt_decode(storedAuthToken);
         if (authPayload) {
           const auth = {
             token: storedAuthToken,
