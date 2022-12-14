@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import InputField from './InputField';
-import SelectField from './SelectField';
 import DropDown from './DropDown';
 import axios from 'axios';
 import _ from 'lodash';

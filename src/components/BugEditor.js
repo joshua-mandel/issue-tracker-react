@@ -388,7 +388,7 @@ function BugEditor({ auth, showError, showSuccess }) {
                     </button>
                   </div>
                   {comments && _.map(comments, (comment) => <CommentListItem key={comment._id} comment={comment} />)}
-                  {!comments && <div className='fs-4'>No Comments Yet</div>}
+                  {!comments && <div className="fs-4">No Comments Yet</div>}
                 </div>
 
                 {commentError && <div className="text-danger mb-3">{'Comment cannot be empty'}</div>}
