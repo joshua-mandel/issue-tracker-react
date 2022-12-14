@@ -66,8 +66,8 @@ function NewBug({ auth, showError, showSuccess }) {
 
   return (
     <div className="container col-md-6">
-      <h3 className="mb-2">Report a New Bug</h3>
-      <h5 className="mb-2">Welcome {auth?.payload.fullName}</h5>
+      <h3 className="mb-2 fs-1">Report a New Bug</h3>
+      <h5 className="mb-4 fs-4">Welcome {auth?.payload.fullName}</h5>
       <form>
         <InputField
           label="Title:"

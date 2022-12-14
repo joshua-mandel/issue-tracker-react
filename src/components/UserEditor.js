@@ -135,12 +135,12 @@ function UserEditor({ auth, showError, showSuccess }) {
 
   return (
     <div className="container col-md-6">
-      <h3 className="mb-2">User Editor</h3>
-      <h5 className="mb-2">Welcome {auth?.payload.fullName}</h5>
+      <h3 className="mb-2 fs-1">User Editor</h3>
+      <h5 className="mb-2 fs-4">Welcome {auth?.payload.fullName}</h5>
       {user && (
         <>
           <form>
-            <h4 className="mb-3">UserId: {userId}</h4>
+            <div className="mb-3 fs-5">UserId: {userId}</div>
             <InputField
               label="First Name:"
               id="given-name-update"
@@ -186,8 +186,8 @@ function UserEditor({ auth, showError, showSuccess }) {
             </div>
             <div className="mb-3">
               {!pending && (
-                <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
-                  Update Bug
+                <button className="btn btn-primary mb-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+                  Update User
                 </button>
               )}
               {pending && (
@@ -198,6 +198,7 @@ function UserEditor({ auth, showError, showSuccess }) {
             </div>
           </form>
           <form>
+          <h5 className="mb-3 fs-4">Set a New Password</h5>
             <div className="input-group">
               <input
                 className="form-control"
@@ -208,8 +209,8 @@ function UserEditor({ auth, showError, showSuccess }) {
                 onChange={(evt) => onInputChange(evt, setPassword)}
                 placeholder="Password"
               />
-              <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmitPassword(evt)}>
-                Update Bug
+              <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitPassword(evt)}>
+                Update Password
               </button>
             </div>
             {passwordError && <div className="text-danger mb-3">{'Passwords need at least 8 characters'}</div>}

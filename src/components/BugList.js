@@ -117,8 +117,8 @@ function BugList({ auth }) {
     <div className="container">
       <div className="" id="bug-list-component">
         <h3 className="mb-2 fs-1">Bug List</h3>
-        {auth?.payload.fullName && <h5 className="mb-3 fs-4">Welcome {auth?.payload.fullName}</h5>}
-        <div className="d-flex flex-wrap align-items-center justify-content-between m-2 mb-2">
+        {auth?.payload.fullName && <h5 className="mb-3 fs-5">Welcome {auth?.payload.fullName}</h5>}
+        <div className="d-flex flex-wrap align-items-center justify-content-between m-2 mb-3">
           <div className="d-flex flex-column">
             <label htmlFor="classification" className="form-label mb-0">
               Classification:
@@ -220,7 +220,7 @@ function BugList({ auth }) {
             <span className="visually-hidden">Loading...</span>
           </div>
         )}
-        {error && <div className="text-danger mb-2">{error}</div>}
+        {error && <div className="text-danger fs-4 mb-2">{error}</div>}
         {!pending && !error && !_.isEmpty(bugs) && (
           <div className="d-flex flex-wrap">
             {_.map(bugs, (bug) => (

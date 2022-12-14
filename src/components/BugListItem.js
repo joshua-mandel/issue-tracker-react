@@ -10,22 +10,22 @@ function BugListItem({ bug }) {
     <div className="col-xl-3 col-md-6 col-12 p-2">
       <div className="card h-100 bg-light">
         <div className="card-body d-flex flex-column justify-content-between">
-          <h5 className="card-title mb-3">{bug.title}</h5>
-          <div className="card-text">
-            <div className="mb-2">
-              {bug.bugClass === 'approved' && <span className=" badge bg-success me-1">Approved</span>}
-              {bug.bugClass === 'unapproved' && <span className=" badge bg-danger me-1">Unapproved</span>}
-              {bug.bugClass === 'duplicate' && <span className=" badge bg-danger me-1">Duplicate</span>}
+          <h5 className="card-title mb-4 fs-4">{bug.title}</h5>
+          <div className="card-text d-flex align-items-center justify-content-between">
+            <div className="d-flex flex-column col-4">
+              {bug.closed === true && <span className="badge bg-danger mb-2">Closed</span>}
+              {bug.closed === false && <span className="badge bg-success mb-2">Open</span>}
+              {bug.bugClass === 'approved' && <span className=" badge bg-success">Approved</span>}
+              {bug.bugClass === 'unapproved' && <span className=" badge bg-danger">Unapproved</span>}
+              {bug.bugClass === 'duplicate' && <span className=" badge bg-danger">Duplicate</span>}
               {bug.bugClass === 'unclassified' && (
-                <span className=" badge text-dark bg-warning me-1">Unclassified</span>
+                <span className=" badge text-dark bg-warning">Unclassified</span>
               )}
-              {bug.closed === true && <span className="badge bg-danger me-1">Closed</span>}
-              {bug.closed === false && <span className="badge bg-success me-1">Open</span>}
             </div>
             <div>
               <button
                 onClick={handleClick}
-                className="btn border border-dark border-1 btn-primary btn-sm px-3 py-1"
+                className="btn border border-dark border-1 btn-primary btn-sm p-2"
                 type="button"
               >
                 <Link className="text-white text-decoration-none" to={`/bug/${bug._id}`}>

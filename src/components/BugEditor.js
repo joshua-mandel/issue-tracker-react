@@ -257,137 +257,147 @@ function BugEditor({ auth, showError, showSuccess }) {
   }
 
   return (
-    <div className="container col-md-6">
+    <div className="container-md">
       <h3 className="mb-2 fs-1">Bug Editor</h3>
       <h5 className="mb-2 fs-4">Welcome {auth?.payload.fullName}</h5>
+      <div className="mb-3 fs-5">BugId: {bugId}</div>
       {bug && (
         <>
-          <form>
-            <div className="mb-3 fs-5">BugId: {bugId}</div>
-            <InputField
-              label="Title:"
-              id="title-update"
-              value={title}
-              onChange={(evt) => onInputChange(evt, setTitle)}
-              placeholder="Enter the title"
-              error={titleError}
-            />
-            <InputField
-              label="Description:"
-              id="title-update"
-              value={description}
-              onChange={(evt) => onInputChange(evt, setDescription)}
-              placeholder="Enter the description"
-              error={descriptionError}
-            />
-            <InputField
-              label="Steps to Reproduce:"
-              id="steps-to-reproduce"
-              value={stepsToReproduce}
-              onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
-              placeholder="Enter the steps to reproduce"
-              error={stepsToReproduceError}
-            />
-            <div className="mb-3">
-              {!pending && (
-                <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
-                  Update Bug
-                </button>
-              )}
-              {pending && (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
+          <div className="d-flex flex-column flex-md-row justify-content-between">
+            <div className="editor col-md-6">
+              <form>
+                
+                <InputField
+                  label="Title:"
+                  id="title-update"
+                  value={title}
+                  onChange={(evt) => onInputChange(evt, setTitle)}
+                  placeholder="Enter the title"
+                  error={titleError}
+                />
+                <InputField
+                  label="Description:"
+                  id="title-update"
+                  value={description}
+                  onChange={(evt) => onInputChange(evt, setDescription)}
+                  placeholder="Enter the description"
+                  error={descriptionError}
+                />
+                <InputField
+                  label="Steps to Reproduce:"
+                  id="steps-to-reproduce"
+                  value={stepsToReproduce}
+                  onChange={(evt) => onInputChange(evt, setStepsToReproduce)}
+                  placeholder="Enter the steps to reproduce"
+                  error={stepsToReproduceError}
+                />
+                <div className="mb-5 d-flex justify-content-center">
+                  {!pending && (
+                    <button className="btn btn-primary col-12" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+                      Update Bug
+                    </button>
+                  )}
+                  {pending && (
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  )}
                 </div>
-              )}
+              </form>
+              <form>
+                <div className="mb-3 col-md-7">
+                  <label htmlFor="closed" className="form-label fs-5">
+                    Open or Closed:
+                  </label>
+                  <div className="input-group">
+                    <DropDown
+                      id="closed"
+                      name="closed"
+                      className="form-select"
+                      value={closed}
+                      onChange={(evt) => onInputChange(evt, setClosed)}
+                    >
+                      <option value="open">Open</option>
+                      <option value="close">Closed</option>
+                    </DropDown>
+                    <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitOpenClose(evt)}>
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <form>
+                <div className="mb-3 col-md-7">
+                  <label htmlFor="classification" className="form-label fs-5">
+                    Classification:
+                  </label>
+                  <div className="input-group">
+                    <DropDown
+                      id="classification"
+                      name="classification"
+                      className="form-select"
+                      value={bugClass}
+                      onChange={(evt) => onInputChange(evt, setBugClass)}
+                    >
+                      <option value="unclassified">Unclassified</option>
+                      <option value="approved">Approved</option>
+                      <option value="unapproved">Unapproved</option>
+                      <option value="duplicate">Duplicate</option>
+                    </DropDown>
+                    <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitBugClass(evt)}>
+                      Classify
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <form className="mb-5 col-md-7">
+                <label for="assignedTo" class="form-label fs-5">
+                  Assigned To:
+                </label>
+                <div className="input-group">
+                  <input
+                    label="Assigned To:"
+                    id="assignedTo"
+                    className="form-control"
+                    value={assignedTo}
+                    onChange={(evt) => onInputChange(evt, setAssignedTo)}
+                    placeholder="Enter assigned user"
+                  />
+                  <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitAssignedTo(evt)}>
+                    Assign User
+                  </button>
+                </div>
+                {assignError && <div className="text-danger mb-3">{'Please enter a valid User Id'}</div>}
+              </form>
+              {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
             </div>
-          </form>
-          <form>
-            <div className="mb-3">
-              <h6 className="fs-3">Comments</h6>
-              {comments && _.map(comments, (comment) => <CommentListItem key={comment._id} comment={comment} />)}
-              {!comments && <div>No Comments Yet</div>}
+            <div className="comments col-md-5">
+              <form>
+                <div className="mb-3">
+                  <h6 className="fs-4 mb-2">Comments</h6>
+                  {comments && _.map(comments, (comment) => <CommentListItem key={comment._id} comment={comment} />)}
+                  {!comments && <div>No Comments Yet</div>}
+                </div>
+                <div className="">
+                  <div className="mb-3 input-group">
+                    <input
+                      className="form-control"
+                      label="Add a Comment:"
+                      id="assignedTo"
+                      value={newComment}
+                      onChange={(evt) => onInputChange(evt, setNewComment)}
+                      placeholder="Enter a comment"
+                    />
+                    <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitComment(evt)}>
+                      Add Comment
+                    </button>
+                  </div>
+                </div>
+
+                {commentError && <div className="text-danger mb-3">{'Comment cannot be empty'}</div>}
+              </form>
             </div>
-            <div className="mb-3 input-group">
-              <input
-                className="form-control"
-                label="Add a Comment:"
-                id="assignedTo"
-                value={newComment}
-                onChange={(evt) => onInputChange(evt, setNewComment)}
-                placeholder="Enter a comment"
-              />
-              <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitComment(evt)}>
-                Add Comment
-              </button>
-            </div>
-            {commentError && <div className="text-danger mb-3">{'Comment cannot be empty'}</div>}
-          </form>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="closed" className="form-label">
-                Open or Closed:
-              </label>
-              <div className="input-group">
-                <DropDown
-                  id="closed"
-                  name="closed"
-                  className="form-select"
-                  value={closed}
-                  onChange={(evt) => onInputChange(evt, setClosed)}
-                >
-                  <option value="open">Open</option>
-                  <option value="close">Closed</option>
-                </DropDown>
-                <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitOpenClose(evt)}>
-                  Update
-                </button>
-              </div>
-            </div>
-          </form>
-          <form className="mb-3">
-            <label for="assignedTo" class="form-label">
-              Assigned To:
-            </label>
-            <div className="input-group">
-              <input
-                label="Assigned To:"
-                id="assignedTo"
-                className="form-control"
-                value={assignedTo}
-                onChange={(evt) => onInputChange(evt, setAssignedTo)}
-                placeholder="Enter assigned user"
-              />
-              <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitAssignedTo(evt)}>
-                Assign User
-              </button>
-            </div>
-            {assignError && <div className="text-danger mb-3">{'Please enter a valid User Id'}</div>}
-          </form>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="classification" className="form-label">
-                Classification:
-              </label>
-              <div className="input-group">
-                <DropDown
-                  id="classification"
-                  name="classification"
-                  className="form-select"
-                  value={bugClass}
-                  onChange={(evt) => onInputChange(evt, setBugClass)}
-                >
-                  <option value="unclassified">Unclassified</option>
-                  <option value="approved">Approved</option>
-                  <option value="unapproved">Unapproved</option>
-                  <option value="duplicate">Duplicate</option>
-                </DropDown>
-                <button className="btn btn-primary" type="submit" onClick={(evt) => onClickSubmitBugClass(evt)}>
-                  Classify
-                </button>
-              </div>
-            </div>
-          </form>
-          {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
+          </div>
         </>
       )}
     </div>

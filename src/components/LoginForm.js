@@ -97,7 +97,7 @@ function LoginForm({ onLogin, showError }) {
           />
 
           <div className="mb-3 d-flex align-items-center">
-            <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
+            <button className="btn btn-lg btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
               Login
             </button>
             <div>

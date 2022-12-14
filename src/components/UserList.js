@@ -34,7 +34,14 @@ function UserList({ auth }) {
         .then((res) => {
           setPending(false);
           if (_.isArray(res.data)) {
-            setUsers(res.data);
+            if (_.isEmpty(res.data)) {
+              console.log(res.data);
+              setError('No Users found');
+              return;
+            } else {
+              setUsers(res.data);
+            }
+            
           } else {
             setError('Expected an array.');
           }
@@ -59,9 +66,17 @@ function UserList({ auth }) {
       },
     })
       .then((res) => {
+        console.log(res.data);
         setPending(false);
         if (_.isArray(res.data)) {
-          setUsers(res.data);
+          if (_.isEmpty(res.data)) {
+            console.log(res.data);
+            setError('No Users found');
+            return;
+          } else {
+            setUsers(res.data);
+          }
+          
         } else {
           setError('Expected an array.');
         }
@@ -77,8 +92,8 @@ function UserList({ auth }) {
     <div className="container">
       <div className="" id="login-component">
         <h3 className="mb-2 fs-1">User List</h3>
-        {auth?.payload.fullName && <h5 className="mb-3 fs-4">Welcome {auth?.payload.fullName}</h5>}
-        <div className="d-flex flex-wrap align-items-center justify-content-between m-2">
+        {auth?.payload.fullName && <h5 className="mb-3 fs-5">Welcome {auth?.payload.fullName}</h5>}
+        <div className="d-flex flex-wrap align-items-center justify-content-between m-2 mb-3">
           <div className="d-flex flex-column">
             <label htmlFor="classification" className="form-label mb-0">
               Role:
@@ -155,8 +170,7 @@ function UserList({ auth }) {
             </form>
           </div>
         </div>
-        {error && <div className="text-danger mb-2">{error}</div>}
-        {_.isEmpty(users) && error && <div className="text-danger">No Users Found</div>}
+        {error && <div className="text-danger fs-4 mb-2">{error}</div>}
         {!pending && !error && !_.isEmpty(users) && (
           <div className="d-flex flex-wrap">
             {_.map(users, (user) => (
