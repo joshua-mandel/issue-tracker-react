@@ -116,14 +116,14 @@ function BugList({ auth }) {
   return (
     <div className="container">
       <div className="" id="bug-list-component">
-        <h3 className="mb-1">Bug List</h3>
-        {auth?.payload.fullName && <h5 className="mb-3">Welcome {auth?.payload.fullName}</h5>}
-        <div className="d-flex flex-wrap align-items-center justify-content-between m-2">
-          <div className="d-flex align-items-end">
-            <label htmlFor="classification" className="form-label me-2">
+        <h3 className="mb-2 fs-1">Bug List</h3>
+        {auth?.payload.fullName && <h5 className="mb-3 fs-4">Welcome {auth?.payload.fullName}</h5>}
+        <div className="d-flex flex-wrap align-items-center justify-content-between m-2 mb-2">
+          <div className="d-flex flex-column">
+            <label htmlFor="classification" className="form-label mb-0">
               Classification:
             </label>
-            <DropDown className="form-select" value={bugClass} onChange={(evt) => onInputChange(evt, setBugClass)}>
+            <DropDown className="form-select form-select-sm" value={bugClass} onChange={(evt) => onInputChange(evt, setBugClass)}>
               <option value="">All</option>
               <option value="unclassified">Unclassified</option>
               <option value="approved">Approved</option>
@@ -153,11 +153,9 @@ function BugList({ auth }) {
               <label className="form-check-label">Closed</label>
             </div>
           </div>
-          <div className="col-2">
-            <div className="d-flex align-items-end mb-2">
-              <label htmlFor="classification" className="form-label col-5">
-                Min Age:
-              </label>
+          <div className="col-4 col-md-2">
+            <div className="input-group input-group-sm mb-2">
+            <span className='input-group-text'>Min Age</span>
               <input
                 type="number"
                 value={minAge}
@@ -166,25 +164,24 @@ function BugList({ auth }) {
                 onChange={(evt) => onInputChange(evt, setMinAge)}
               />
             </div>
-            <div className="d-flex align-items-end">
-              <label htmlFor="classification" className="form-label col-5">
-                Max Age:
-              </label>
+            <div className="input-group input-group-sm">
+              <span className='input-group-text'>Max Age</span>
               <input
                 type="number"
                 value={maxAge}
                 id="min-age-input"
                 className="form-control"
+                size='1'
                 onChange={(evt) => onInputChange(evt, setMaxAge)}
               />
             </div>
           </div>
-          <div className="d-flex align-items-end">
-            <label htmlFor="classification" className="form-label col-4 me-2">
+          <div className="d-flex flex-column align-self-start mb-3">
+            <label htmlFor="classification" className="form-label mb-0">
               Sort By:
             </label>
-            <div className="col-9">
-              <DropDown className="form-select" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
+            <div className="">
+              <DropDown className="form-select form-select-sm" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
                 <option value=""></option>
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
@@ -194,9 +191,9 @@ function BugList({ auth }) {
               </DropDown>
             </div>
           </div>
-          <div className="col-lg-3 col-12 my-2">
+          <div className="col-lg-2 col-12 my-2">
             <form>
-              <div class="input-group">
+              <div class="input-group input-group-sm">
                 <input
                   type="text"
                   class="form-control"

@@ -3,7 +3,7 @@ function InputField({ label, id, className, error, ...rest }) {
 
   return (
     <div className="mb-3">
-      <label className="form-label" htmlFor={id}>
+      <label className="form-label fs-5" htmlFor={id}>
         {label}
       </label>
       <input className={inputClasses} id={id} {...rest} />

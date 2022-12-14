@@ -1,3 +1,4 @@
+import './App.scss';
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import BugEditor from './components/BugEditor';
 import BugList from './components/BugList';
@@ -12,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserEditor from './components/UserEditor';
 import UserList from './components/UserList';
 import { useState, useEffect } from 'react';
-import './styles/App.css';
 import NewBug from './components/NewBug';
 
 function App() {

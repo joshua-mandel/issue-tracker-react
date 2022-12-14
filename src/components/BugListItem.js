@@ -25,7 +25,7 @@ function BugListItem({ bug }) {
             <div>
               <button
                 onClick={handleClick}
-                className="btn border border-dark border-1 btn-primary btn-sm px-3 py-0"
+                className="btn border border-dark border-1 btn-primary btn-sm px-3 py-1"
                 type="button"
               >
                 <Link className="text-white text-decoration-none" to={`/bug/${bug._id}`}>

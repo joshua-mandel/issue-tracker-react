@@ -30,23 +30,23 @@ function Navbar({ auth, onLogout }) {
               </li>
             )}
             {auth && (
-              <div className="d-flex justify-content-between">
-                <li className="nav-item d-flex justify-content-end">
+              <div className="d-flex flex-wrap justify-content-between">
+                <li className="nav-item d-flex justify-content-md-center justify-content-end col-12 col-md-3">
                   <NavLink className="nav-link" to="/user/list">
                     User List
                   </NavLink>
                 </li>
-                <li className="nav-item d-flex justify-content-end">
+                <li className="nav-item d-flex justify-content-md-center justify-content-end col-12 col-md-3">
                   <NavLink className="nav-link" to="/bug/list">
                     Bug List
                   </NavLink>
                 </li>
-                <li className="nav-item d-flex justify-content-end">
+                <li className="nav-item d-flex justify-content-md-center justify-content-end col-12 col-md-3">
                   <NavLink className="nav-link" to="/bug/report">
                     Report a New Bug
                   </NavLink>
                 </li>
-                <li className="nav-item d-flex justify-content-end">
+                <li className="nav-item d-flex justify-content-md-center justify-content-end col-12 col-md-3">
                   <NavLink className="nav-link" to="/login" onClick={(evt) => onLogout(evt)}>
                     Logout
                   </NavLink>

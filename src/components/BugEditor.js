@@ -258,12 +258,12 @@ function BugEditor({ auth, showError, showSuccess }) {
 
   return (
     <div className="container col-md-6">
-      <h3 className="mb-2">Bug Editor</h3>
-      <h5 className="mb-2">Welcome {auth?.payload.fullName}</h5>
+      <h3 className="mb-2 fs-1">Bug Editor</h3>
+      <h5 className="mb-2 fs-4">Welcome {auth?.payload.fullName}</h5>
       {bug && (
         <>
           <form>
-            <h4 className="mb-3">BugId: {bugId}</h4>
+            <div className="mb-3 fs-5">BugId: {bugId}</div>
             <InputField
               label="Title:"
               id="title-update"

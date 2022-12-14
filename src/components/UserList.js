@@ -3,7 +3,6 @@ import _ from 'lodash';
 import axios from 'axios';
 import UserListItem from './UserListItem';
 import DropDown from './DropDown';
-import DefaultCheckedBox from './DefaultCheckedBox';
 
 function UserList({ auth }) {
   const [pending, setPending] = useState(true);
@@ -77,14 +76,18 @@ function UserList({ auth }) {
   return (
     <div className="container">
       <div className="" id="login-component">
-        <h3 className="mb-1">User List</h3>
-        {auth?.payload.fullName && <h5 className="mb-3">Welcome {auth?.payload.fullName}</h5>}
+        <h3 className="mb-2 fs-1">User List</h3>
+        {auth?.payload.fullName && <h5 className="mb-3 fs-4">Welcome {auth?.payload.fullName}</h5>}
         <div className="d-flex flex-wrap align-items-center justify-content-between m-2">
-          <div className="d-flex align-items-end">
-            <label htmlFor="classification" className="form-label me-2">
-              Classification:
+          <div className="d-flex flex-column">
+            <label htmlFor="classification" className="form-label mb-0">
+              Role:
             </label>
-            <DropDown className="form-select" value={role} onChange={(evt) => onInputChange(evt, setRole)}>
+            <DropDown
+              className="form-select form-select-sm"
+              value={role}
+              onChange={(evt) => onInputChange(evt, setRole)}
+            >
               <option value="">All</option>
               <option value="Developer">Developer</option>
               <option value="Business Analyst">Business Analyst</option>
@@ -93,11 +96,9 @@ function UserList({ auth }) {
               <option value="Technical Manager">Technical Manager</option>
             </DropDown>
           </div>
-          <div className="col-2">
-            <div className="d-flex align-items-end mb-2">
-              <label htmlFor="classification" className="form-label col-5">
-                Min Age:
-              </label>
+          <div className="col-4 col-md-2">
+            <div className="input-group input-group-sm mb-2">
+              <span className="input-group-text">Min Age</span>
               <input
                 type="number"
                 value={minAge}
@@ -106,10 +107,8 @@ function UserList({ auth }) {
                 onChange={(evt) => onInputChange(evt, setMinAge)}
               />
             </div>
-            <div className="d-flex align-items-end">
-              <label htmlFor="classification" className="form-label col-5">
-                Max Age:
-              </label>
+            <div className="input-group input-group-sm">
+              <span className="input-group-text">Max Age</span>
               <input
                 type="number"
                 value={maxAge}
@@ -119,24 +118,22 @@ function UserList({ auth }) {
               />
             </div>
           </div>
-          <div className="d-flex align-items-end">
-            <label htmlFor="classification" className="form-label col-4 me-2">
+          <div className="d-flex flex-column">
+            <label htmlFor="classification" className="form-label mb-0">
               Sort By:
             </label>
-            <div className="col-9">
-              <DropDown className="form-select" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
-                <option value=""></option>
-                <option value="givenName">Given Name</option>
-                <option value="familyName">Family Name</option>
-                <option value="role">Role</option>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </DropDown>
-            </div>
+            <DropDown className="form-select form-select-sm" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
+              <option value=""></option>
+              <option value="givenName">Given Name</option>
+              <option value="familyName">Family Name</option>
+              <option value="role">Role</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </DropDown>
           </div>
-          <div className="col-lg-3 col-12 my-2">
+          <div className="col-lg-2 col-12 my-2">
             <form>
-              <div class="input-group">
+              <div class="input-group input-group-sm">
                 <input
                   type="text"
                   class="form-control"
@@ -159,7 +156,7 @@ function UserList({ auth }) {
           </div>
         </div>
         {error && <div className="text-danger mb-2">{error}</div>}
-        {_.isEmpty(users) && <div className="text-danger">No Users Found</div>}
+        {_.isEmpty(users) && error && <div className="text-danger">No Users Found</div>}
         {!pending && !error && !_.isEmpty(users) && (
           <div className="d-flex flex-wrap">
             {_.map(users, (user) => (
