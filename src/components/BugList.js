@@ -123,7 +123,11 @@ function BugList({ auth }) {
             <label htmlFor="classification" className="form-label mb-0">
               Classification:
             </label>
-            <DropDown className="form-select form-select-sm" value={bugClass} onChange={(evt) => onInputChange(evt, setBugClass)}>
+            <DropDown
+              className="form-select form-select-sm"
+              value={bugClass}
+              onChange={(evt) => onInputChange(evt, setBugClass)}
+            >
               <option value="">All</option>
               <option value="unclassified">Unclassified</option>
               <option value="approved">Approved</option>
@@ -155,7 +159,7 @@ function BugList({ auth }) {
           </div>
           <div className="col-4 col-md-2">
             <div className="input-group input-group-sm mb-2">
-            <span className='input-group-text'>Min Age</span>
+              <span className="input-group-text">Min Age</span>
               <input
                 type="number"
                 value={minAge}
@@ -165,13 +169,13 @@ function BugList({ auth }) {
               />
             </div>
             <div className="input-group input-group-sm">
-              <span className='input-group-text'>Max Age</span>
+              <span className="input-group-text">Max Age</span>
               <input
                 type="number"
                 value={maxAge}
                 id="min-age-input"
                 className="form-control"
-                size='1'
+                size="1"
                 onChange={(evt) => onInputChange(evt, setMaxAge)}
               />
             </div>
@@ -181,7 +185,11 @@ function BugList({ auth }) {
               Sort By:
             </label>
             <div className="">
-              <DropDown className="form-select form-select-sm" value={sortBy} onChange={(evt) => onInputChange(evt, setSortBy)}>
+              <DropDown
+                className="form-select form-select-sm"
+                value={sortBy}
+                onChange={(evt) => onInputChange(evt, setSortBy)}
+              >
                 <option value=""></option>
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
