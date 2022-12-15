@@ -4,6 +4,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import DropDown from './DropDown';
 import DefaultCheckedBox from './DefaultCheckedBox';
+import { FaList } from 'react-icons/fa';
 
 function BugList({ auth }) {
   const [error, setError] = useState('');
@@ -116,7 +117,10 @@ function BugList({ auth }) {
   return (
     <div className="container">
       <div className="" id="bug-list-component">
-        <h3 className="mb-2 fs-1">Bug List</h3>
+        <div className='d-flex align-items-center'>
+          <h3 className='me-3'>{<FaList />}</h3>
+          <h3 className="mb-2 fs-1">Bug List</h3>
+        </div>
         {auth?.payload.fullName && <h5 className="mb-3 fs-5">Welcome {auth?.payload.fullName}</h5>}
         <div className="d-flex flex-wrap align-items-center justify-content-between m-2 mb-3">
           <div className="d-flex flex-column">

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
+import { FaEdit, FaUserAlt, FaEnvelope } from 'react-icons/fa';
 
 function UserListItem({ user }) {
   const [roleArray, setRoleArray] = useState(false);
@@ -24,9 +25,15 @@ function UserListItem({ user }) {
       <div className="card h-100 bg-light">
         <div className="card-body d-flex align-items-center justify-content-between">
           <div className="d-flex flex-column">
-            <div>
-              <h5 className="card-title mb-1 fs-4">{user.fullName}</h5>
-              <h6 className="card-text mb-2">{user.emailAddress}</h6>
+            <div className="d-flex flex-column">
+              <div className="d-flex align-items-center">
+                <FaUserAlt className="me-2 mb-2 fs-5" />
+                <h5 className="card-title mb-1 fs-4">{user.fullName}</h5>
+              </div>
+              <div className="d-flex align-items-center">
+                <FaEnvelope className="me-2 mb-2" />
+                <h6 className="card-text mb-2">{user.emailAddress}</h6>
+              </div>
             </div>
             <div>
               {roleArray && (
@@ -47,8 +54,9 @@ function UserListItem({ user }) {
                 className="btn border border-dark border-1 btn-primary btn-sm  p-2"
                 type="button"
               >
-                <Link className="text-white text-decoration-none" to={`/user/${user._id}`}>
-                  Edit User
+                <Link className="text-white text-decoration-none d-flex align-items-center" to={`/user/${user._id}`}>
+                  <FaEdit className="me-1" />
+                  <div>Edit User</div>
                 </Link>
               </button>
             </div>

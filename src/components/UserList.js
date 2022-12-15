@@ -3,6 +3,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import UserListItem from './UserListItem';
 import DropDown from './DropDown';
+import { FaList } from 'react-icons/fa';
 
 function UserList({ auth }) {
   const [pending, setPending] = useState(true);
@@ -91,7 +92,10 @@ function UserList({ auth }) {
   return (
     <div className="container">
       <div className="" id="login-component">
-        <h3 className="mb-2 fs-1">User List</h3>
+      <div className='d-flex align-items-center'>
+          <h3 className='me-3'>{<FaList />}</h3>
+          <h3 className="mb-2 fs-1">User List</h3>
+        </div>
         {auth?.payload.fullName && <h5 className="mb-3 fs-5">Welcome {auth?.payload.fullName}</h5>}
         <div className="d-flex flex-wrap align-items-center justify-content-between m-2 mb-3">
           <div className="d-flex flex-column">

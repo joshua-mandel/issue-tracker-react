@@ -4,6 +4,7 @@ import InputField from './InputField';
 import DropDown from './DropDown';
 import axios from 'axios';
 import _ from 'lodash';
+import { FaEdit } from 'react-icons/fa';
 
 function UserEditor({ auth, showError, showSuccess }) {
   const { userId } = useParams();
@@ -134,7 +135,10 @@ function UserEditor({ auth, showError, showSuccess }) {
 
   return (
     <div className="container col-md-6">
-      <h3 className="mb-2 fs-1">User Editor</h3>
+      <div className="d-flex align-items-center">
+        <h3 className="me-3">{<FaEdit />}</h3>
+        <h3 className="mb-2 fs-1">User Editor</h3>
+      </div>
       <h5 className="mb-2 fs-4">Welcome {auth?.payload.fullName}</h5>
       {user && (
         <>
@@ -197,7 +201,7 @@ function UserEditor({ auth, showError, showSuccess }) {
             </div>
           </form>
           <form>
-          <h5 className="mb-3 fs-4">Set a New Password</h5>
+            <h5 className="mb-3 fs-4">Set a New Password</h5>
             <div className="input-group">
               <input
                 className="form-control"

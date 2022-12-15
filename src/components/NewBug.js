@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InputField from './InputField';
 import _ from 'lodash';
+import { FaEdit } from 'react-icons/fa';
 
 function NewBug({ auth, showError, showSuccess }) {
   const [title, setTitle] = useState('');
@@ -66,8 +67,12 @@ function NewBug({ auth, showError, showSuccess }) {
 
   return (
     <div className="container col-md-6">
-      <h3 className="mb-2 fs-1">Report a New Bug</h3>
-      <h5 className="mb-4 fs-4">Welcome {auth?.payload.fullName}</h5>
+      <div className='d-flex align-items-center'>
+        <FaEdit className='fs-3 mb-1 me-3' />
+        <h3 className="mb-2 fs-1">Report a New Bug</h3>
+      </div>
+      
+      <h5 className="mb-3 fs-4">Welcome {auth?.payload.fullName}</h5>
       <form>
         <InputField
           label="Title:"
@@ -96,7 +101,7 @@ function NewBug({ auth, showError, showSuccess }) {
         {error && <div className="text-danger mb-3">{'Please fix the errors above'}</div>}
         {!pending && (
           <button className="btn btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
-            Update Bug
+            Report Bug
           </button>
         )}
         {pending && (

@@ -5,6 +5,7 @@ import DropDown from './DropDown';
 import axios from 'axios';
 import _ from 'lodash';
 import CommentListItem from './CommentListItem';
+import { FaEdit } from 'react-icons/fa';
 
 function BugEditor({ auth, showError, showSuccess }) {
   const { bugId } = useParams();
@@ -258,7 +259,10 @@ function BugEditor({ auth, showError, showSuccess }) {
 
   return (
     <div className="container-md">
-      <h3 className="mb-2 fs-1">Bug Editor</h3>
+      <div className="d-flex align-items-center mb-2">
+        <h3 className="me-3 mb-2">{<FaEdit />}</h3>
+        <h3 className="fs-1">Bug Editor</h3>
+      </div>
       <h5 className="mb-2 fs-4">Welcome {auth?.payload.fullName}</h5>
       <div className="mb-3 fs-5">BugId: {bugId}</div>
       {bug && (

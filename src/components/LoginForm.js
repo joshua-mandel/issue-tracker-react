@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import InputField from './InputField';
 import largeLogo from '../issue-tracker-logo.png';
+import { FaDoorOpen, FaDoorClosed, FaEdit, FaList } from 'react-icons/fa';
 
 function LoginForm({ onLogin, showError }) {
   const [emailAddress, setEmail] = useState();
@@ -98,7 +99,11 @@ function LoginForm({ onLogin, showError }) {
 
           <div className="mb-3 d-flex align-items-center">
             <button className="btn btn-lg btn-primary me-3" type="submit" onClick={(evt) => onClickSubmit(evt)}>
-              Login
+              <div className='d-flex align-items-center'>
+              {<FaDoorOpen className='me-2' />}
+              <div>Login</div>
+              </div>
+              
             </button>
             <div>
               <div>Don't have an account yet?</div>

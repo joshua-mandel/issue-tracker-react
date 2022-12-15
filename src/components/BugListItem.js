@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { FaEdit } from 'react-icons/fa';
 
 function BugListItem({ bug }) {
   function handleClick(e) {
@@ -10,7 +11,10 @@ function BugListItem({ bug }) {
     <div className="col-xl-3 col-md-6 col-12 p-2">
       <div className="card h-100 bg-light">
         <div className="card-body d-flex flex-column justify-content-between">
-          <h5 className="card-title mb-4 fs-4">{bug.title}</h5>
+          <div className='d-flex align-items-start'>
+            <h5 className="card-title mb-4 fs-4">{bug.title}</h5>
+          </div>
+          
           <div className="card-text d-flex align-items-center justify-content-between">
             <div className="d-flex flex-column col-4">
               {bug.closed === true && <span className="badge text-white bg-danger mb-2">CLOSED</span>}
@@ -28,7 +32,8 @@ function BugListItem({ bug }) {
                 className="btn border border-dark border-1 btn-primary btn-sm p-2"
                 type="button"
               >
-                <Link className="text-white text-decoration-none" to={`/bug/${bug._id}`}>
+                <Link className="text-white text-decoration-none d-flex align-items-center" to={`/bug/${bug._id}`}>
+                  <FaEdit className='me-1 mb-1' />
                   Edit Bug
                 </Link>
               </button>
